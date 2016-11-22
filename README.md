@@ -24,7 +24,7 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 ６０％以上 = ▲<br>
 ５０％以上 = ×<br>
 <br>
-<img src="https://github.com/chicori/chicorin/blob/master/test1.jpg?raw=true">
+<img src="https://github.com/chicori/chicorin/blob/master/sample_image.jpg">
 <br>
 ■使い方<br>
 <b>他の marketshowlevel.ipf（類似含む）が既にある場合削除してください。</b><br>
