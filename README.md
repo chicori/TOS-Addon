@@ -10,8 +10,9 @@
 https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 <br>
 <br>
-１．ヘアアクセオプションの表記においてオプション別の色分け<br>
 <br>
+■変更点<br>
+１．ヘアアクセオプションの表記においてオプション別の色分け<br>
 黄 = HP、HPR<br>
 青 = SP、SPR<br>
 赤 = 物理攻撃<br>
@@ -21,7 +22,6 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 <br>
 <br>
 ２．最大値と比較した現在のパーセンテージによって記号付与<br>
-<br>
 ９０％以上 = ★<br>
 ８０％以上 = ●<br>
 ６０％以上 = ▲<br>
