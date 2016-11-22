@@ -1,16 +1,18 @@
 # marketshowlevel ex
 
 
-とらハム様の marketshowlevel v.0.02.ipf をベースに違うアプローチでの表示をしました。<br>
+とらハム様の<b>『marketshowlevel_jp_v.1.02.ipf』</b>をベースに、
+オプション別に色分け＆値の評価といった違うアプローチでの表示です。<br>
+大きな改修を加えてる途中ですが、少し時間がかかりそうなので、ひとまず使えそうな段階での公開です。
 <br>
 <br>
-■とらハム GitHub<br>
+■とらハム様 GitHub<br>
 https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 <br>
 １．ヘアアクセオプションの表記においてオプション別の色分け<br>
 <br>
 黄 = HP、HPR<br>
-青 = SP SPR<br>
+青 = SP、SPR<br>
 赤 = 物理攻撃<br>
 紫 = 魔法攻撃、魔法増幅<br>
 緑 = クリティカル<br>
