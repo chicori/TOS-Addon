@@ -7,11 +7,11 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 <br>
 １．ヘアアクセオプションの表記においてオプション別の色分け<br>
 <br>
-ＨＰ、ＨＰＲ　 ＝ 黄色<br>
-ＳＰ、ＳＰＲ　 ＝ 青<br>
-物攻　 　 　　 ＝ 赤<br>
-魔攻、魔法増幅 ＝ 紫<br>
-クリティカル　 ＝ 緑<br>
+黄 = HP、HPR<br>
+青 = SP SPR<br>
+赤 = 物理攻撃<br>
+紫 = 魔法攻撃、魔法増幅<br>
+緑 = クリティカル<br>
 など・・・<br>
 <br>
 <br>
