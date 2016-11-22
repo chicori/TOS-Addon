@@ -34,5 +34,5 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 <b>他の marketshowlevel.ipf（類似含む）が既にある場合削除してください。</b><br>
 <b>『_marketshowlevel_jp_v1.0.2♬ex1.ipf』</b>を Tree of Saviorインストールフォルダの「data」フォルダ内にコピーしてください。<br>
 <br>
-とすけん様、とらハム様ありがとうございます！<br>
+とすけん様、とらハム様、本当にありがとうございます！<br>
 Special Thanks to tosken and torahamu<br>
