@@ -1,7 +1,7 @@
 # marketshowlevel ex
 
 
-とらハム様の marketshowlevel v.0.02.ipf をベースに違うアプローチで表示しました。<br>
+とらハム様の marketshowlevel v.0.02.ipf をベースに違うアプローチでの表示をしました。<br>
 <br>
 <br>
 ■とらハム GitHub<br>
@@ -23,11 +23,10 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 ８０％以上 = ●<br>
 ６０％以上 = ▲<br>
 ５０％以上 = ×<br>
-※上位優先<br>
 <br>
 ■使い方<br>
-<b>他の marketshowlevel.ipf（類似含む）が既にある場合削除してください。</B><br>
-_marketshowlevel_jp_v1.0.2♬ex1.ipf を Tree of Saviorインストールフォルダの「data」フォルダ内にコピーしてください。<br>
+<b>他の marketshowlevel.ipf（類似含む）が既にある場合削除してください。</b><br>
+<b>『_marketshowlevel_jp_v1.0.2♬ex1.ipf』</b>を Tree of Saviorインストールフォルダの「data」フォルダ内にコピーしてください。<br>
 <br>
 とすけん様、とらハム様ありがとうございます！<br>
 Special Thanks to tosken and torahamu<br>
