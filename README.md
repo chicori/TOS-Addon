@@ -1,8 +1,8 @@
 # marketshowlevel ex
 
 
-とらハム様の marketshowlevel v.0.02.ipf をベースに違うアプローチで表示しました。
-■とらハム GitHub
+とらハム様の marketshowlevel v.0.02.ipf をベースに違うアプローチで表示しました。<br>
+■とらハム GitHub<br>
 https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 
 １．ヘアアクセオプションの表記においてオプション別の色分け
