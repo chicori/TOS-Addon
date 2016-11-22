@@ -24,6 +24,8 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 ６０％以上 = ▲<br>
 ５０％以上 = ×<br>
 <br>
+<img src="https://github.com/chicori/chicorin/blob/master/test1.jpg?raw=true">
+<br>
 ■使い方<br>
 <b>他の marketshowlevel.ipf（類似含む）が既にある場合削除してください。</b><br>
 <b>『_marketshowlevel_jp_v1.0.2♬ex1.ipf』</b>を Tree of Saviorインストールフォルダの「data」フォルダ内にコピーしてください。<br>
