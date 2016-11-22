@@ -25,6 +25,9 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 ６０％以上 = ▲<br>
 ５０％以上 = ×<br>
 <br>
+■サンプルイメージ<br>
+たまたまですが、魔法系ばっかりになってしまいました。<br>
+魔攻、魔幅、属性抵抗あたりの数値と付与記号を見比べてみてください。<br>
 <img src="https://github.com/chicori/chicorin/blob/master/sample_image.jpg">
 <br>
 ■使い方<br>
