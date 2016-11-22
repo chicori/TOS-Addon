@@ -10,7 +10,6 @@
 https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 <br>
 <br>
-<br>
 ■変更点<br>
 １．ヘアアクセオプションの表記においてオプション別の色分け<br>
 黄 = HP、HPR<br>
@@ -19,7 +18,6 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 紫 = 魔法攻撃、魔法増幅<br>
 緑 = クリティカル<br>
 など・・・<br>
-<br>
 <br>
 ２．最大値と比較した現在のパーセンテージによって記号付与<br>
 ９０％以上 = ★<br>
