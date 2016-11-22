@@ -2,6 +2,8 @@
 
 
 とらハム様の marketshowlevel v.0.02.ipf をベースに違うアプローチで表示しました。<br>
+<br>
+<br>
 ■とらハム GitHub<br>
 https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 <br>
