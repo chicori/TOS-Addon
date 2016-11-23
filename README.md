@@ -1,7 +1,8 @@
 # marketshowlevel ex
 
-
-とらハム様の<b>『marketshowlevel_jp_v.1.02.ipf』</b>をベースに、<br>
+ver.1.03対応 ※但しレイアウトが少し崩れてます。<br>
+<br>
+とらハム様の<b>『marketshowlevel_jp_v.1.03.ipf』</b>をベースに、<br>
 オプション別に色分け＆値の評価といった違うアプローチでの表示を行いました。<br>
 大きな改修を加えてる途中ですが、少し時間がかかりそうなので、ひとまず使えそうな段階になったので公開いたします。<br>
 <br>
@@ -10,7 +11,8 @@
 https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 <br>
 <br>
-■変更点<br>
+<br>
+■本家からの変更点<br>
 １．ヘアアクセオプションの表記においてオプション別の色分け<br>
 黄 = HP、HPR<br>
 青 = SP、SPR<br>
@@ -24,6 +26,11 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 ８０％以上 = ●<br>
 ６０％以上 = ▲<br>
 ５０％以上 = ×<br>
+<br>
+３．非表示オプション<br>
+広域防御、クリティカル抵抗、命中、回避を非表示にいています。<br>
+フラグ制御なので、luaいじれる人はオンにできます。<br>
+<br>
 <br>
 ■サンプルイメージ<br>
 たまたまですが、魔法系ばっかりになってしまいました。<br>
