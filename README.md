@@ -31,6 +31,9 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 広域防御、クリティカル抵抗、命中、回避を非表示にいています。<br>
 フラグ制御なので、luaいじれる人はオンにできます。<br>
 <br>
+４．並び替え<br>
+物理防御、魔法防御などは前にいくように並び替えいています。<br>
+<br>
 <br>
 ■サンプルイメージ<br>
 たまたまですが、魔法系ばっかりになってしまいました。<br>
