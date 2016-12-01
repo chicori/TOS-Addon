@@ -36,7 +36,7 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 　物理防御、魔法防御などは前にいくように並び替えいています。<br>
 <br>
 <br>
-【装備】
+【装備】<br>
 　１．アイテム名の後ろに最大スロットの表記<br>
 　　　例：フィフスハンマー[5]<br>
   ２．ポテンシャルの表記（PR値）<br>
