@@ -40,7 +40,7 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 　１．アイテム名の後ろに最大スロットの表記<br>
 　　　例：フィフスハンマー[5]<br>
    
-<img src="https://github.com/chicori/chicorin/blob/master/test%20v1.0.5/test1.0.5.Socket.jpg">
+<img src="https://github.com/chicori/chicorin/blob/master/test%20v1.0.5/test1.0.5.Socket.jpg"><br>
 　２．ポテンシャルの表記（PR値）<br>
 
 【ジェム】<br>
