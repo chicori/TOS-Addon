@@ -39,7 +39,7 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 【装備】<br>
 　１．アイテム名の後ろに最大スロットの表記<br>
 　　　例：フィフスハンマー[5]<br>
-  ２．ポテンシャルの表記（PR値）<br>
+　２．ポテンシャルの表記（PR値）<br>
 
 【ジェム】<br>
 　１．モンスタージェムの対応する職・スキルの表記（英語※改修予定）<br>
