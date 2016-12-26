@@ -12,9 +12,14 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 ■本家からの変更点、サンプルイメージ<br>
 <img src="https://github.com/chicori/chicorin/blob/master/readme.jpg">
 <br>
+<br>
 ■使い方<br>
+<b>Tree of Saviorインストールフォルダの「data」フォルダ内にコピーしてください。<br>
+<b>便宜上、本家marketshowlevelのファイル名と同一にしていますので、本家を使用の場合は上書きもしくは、</b><br>
 <b>他の marketshowlevel.ipf（類似含む）が既にある場合削除してください。</b><br>
-<b>『_marketshowlevel_jp_v****♬</b>を Tree of Saviorインストールフォルダの「data」フォルダ内にコピーしてください。<br>
+<br>
+■その他<br>
+エラーやこんなのあったらいいなアイデアがありましたらTwitter chico_tosまでお願いします。<br>
 <br>
 とすけん様、とらハム様、本当にありがとうございます！<br>
 Special Thanks to tosken and torahamu<br>
