@@ -1,6 +1,6 @@
 # marketshowlevel ex
 
-v1.0.6.ipf対応<br>
+2016/12/26 v1.0.6.ipf対応<br>
 <br>
 とらハム様の<b>『marketshowlevel_jp_v.1.06.ipf』</b>をベースにいくつかの改変を行っています。<br>
 <br>
