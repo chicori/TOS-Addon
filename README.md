@@ -10,7 +10,7 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 <br>
 <br>
 ■本家からの変更点、サンプルイメージ<br>
-<img src="https://github.com/chicori/chicorin/blob/master/sample_image.jpg">
+<img src="https://github.com/chicori/chicorin/blob/master/readme.jpg">
 <br>
 ■使い方<br>
 <b>他の marketshowlevel.ipf（類似含む）が既にある場合削除してください。</b><br>
