@@ -3,10 +3,10 @@
 		"name" : "Market Show Level Ex For Japan",
 		"file" : "marketshowlevel_jp",
 		"extension" : "ipf",
-		"fileVersion" : "v1.0.6",
+		"fileVersion" : "exv1.0.6",
 		"releaseTag" : "marketshowlevel",
 		"unicode" : "⛄",
-		"description" : "MarketShowLevel Ex For Japan Version.",
+		"description" : "MarketShowLevel Ex For Japan Version.他のmarketshowlevelと競合します。アンインストールしてください。",
 		"tags" : [
 			"ui",
 			"market",
