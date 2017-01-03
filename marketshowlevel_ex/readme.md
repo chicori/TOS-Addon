@@ -1,8 +1,8 @@
 # marketshowlevel ex
-とらハム様の<b>『marketshowlevel_jp_v.1.06.ipf』</b>をベースにいくつかの改変を行っています。<br>
+とらハム様の<b>『marketshowlevel_jp』</b>をベースにいくつかの改変を行っています。<br>
 
-<br>2016/12/26 v1.0.6.ipf対応<br>
-update : 2016/12/26 ヘアアクセに部位表示
+<br>2016/12/26 v1.0.7<br>
+update : 2017/01/04 コレクション不具合修正
 <BR >
 <br>
 ■ベースになったもの：とらハム様 GitHub<br>
