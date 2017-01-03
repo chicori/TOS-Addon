@@ -6,7 +6,7 @@
 		"fileVersion" : "v1.0.6",
 		"releaseTag" : "marketshowlevel_ex",
 		"unicode" : "⛄",
-		"description" : "とらハム様のmarketshowlevelをベースにいくつかの改変を行っています。詳しくはWEBSITEにて。なお他のmarketsholevelと競合しますので、他のはアンインストールをしてください。",
+		"description" : "とらハム様のmarketshowlevelをベースにいくつかの改変を行いました。詳しくはWEBSITEにて。なお他のmarketsholevelと競合するので、他のはアンインストールをしてください。",
 		"tags" : [
 			"ui",
 			"market",
