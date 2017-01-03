@@ -6,7 +6,7 @@
 		"fileVersion" : "v1.0.7",
 		"releaseTag" : "marketshowlevel_ex",
 		"unicode" : "⛄",
-		"description" : "v1.0.7:コレクション表示のbugfix。とらハム様のmarketshowlevelをベースにいくつかの改変をしています。詳しくはWEBSITEにて。なお他のmarketsholevelと競合するので、他のはアンインストールをしてください。",
+		"description" : "【v1.0.7:コレクション表示のbugfix】とらハム様のmarketshowlevelをベースにいくつかの改変をしています。詳しくはWEBSITEにて。なお他のmarketsholevelと競合するので、他のはアンインストールをしてください。",
 		"tags" : [
 			"ui",
 			"market",
