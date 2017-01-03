@@ -11,7 +11,7 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 <br>
 <br>
 ■本家からの変更点、サンプルイメージ<br>
-<img src="https://github.com/chicori/TOS-Addon/blob/master/marketshowlevel_ex/readme.jpg">
+<img src="https://github.com/chicori/TOS-Addon/blob/master/marketshowlevel_ex/read_me.jpg">
 <br>
 <br>
 ■使い方<br>
