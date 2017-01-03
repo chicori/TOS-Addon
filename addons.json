@@ -3,7 +3,7 @@
 		"name" : "Market Show Level Ex",
 		"file" : "marketshowlevel_ex",
 		"extension" : "ipf",
-		"fileVersion" : "v1.0.6",
+		"fileVersion" : "v1.0.7",
 		"releaseTag" : "marketshowlevel_ex",
 		"unicode" : "⛄",
 		"description" : "とらハム様のmarketshowlevelをベースにいくつかの改変を行いました。詳しくはWEBSITEにて。なお他のmarketsholevelと競合するので、他のはアンインストールをしてください。",
