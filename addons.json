@@ -1,10 +1,10 @@
 [
 	{
 		"name" : "Market Show Level Ex",
-		"file" : "marketshowlevel_jp",
+		"file" : "marketshowlevel_ex",
 		"extension" : "ipf",
-		"fileVersion" : "exv1.0.6",
-		"releaseTag" : "marketshowlevel",
+		"fileVersion" : "v1.0.6",
+		"releaseTag" : "marketshowlevel_ex",
 		"unicode" : "⛄",
 		"description" : "他のmarketshowlevelと競合します。アンインストールしてください。",
 		"tags" : [
