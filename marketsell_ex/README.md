@@ -6,4 +6,4 @@
 
 
 #sample image
-![alt text](https://github.com/chicori/TOS-Addon/blob/master/marketsell_ex/read_me.jpg "market ss")
+![alt text](https://github.com/chicori/TOS-Addon/blob/master/marketsell_ex/readme.jpg "market ss")
