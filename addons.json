@@ -17,7 +17,7 @@
 		"name" : "Market Sell Ex",
 		"file" : "marketsell_ex",
 		"extension" : "ipf",
-		"fileVersion" : "v1.0.0",
+		"fileVersion" : "v1.0.1",
 		"releaseTag" : "marketsell_ex",
 		"unicode" : "⛄",
 		"description" : "【v1.0.1bugfix 登録・キャンセル時、リスト更新不具合のため機能制限中】マーケットの販売登録画面で金額にカンマ付与、ＫＭＧ単位の併記、コレクション確認などを表示します。",
