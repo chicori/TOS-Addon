@@ -1,4 +1,4 @@
-# marketshowlevel ex
+#marketshowlevel ex
 とらハム様の『marketshowlevel_jp』をベースにいくつかの改変を行っています。  
 
 ■last update  
