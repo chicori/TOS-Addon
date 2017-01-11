@@ -1,7 +1,7 @@
 CHAT_SYSTEM("marketsell ex loaded!");
 local acutil = require('acutil');
 
-function MARKETSELLEX_ON_INIT(addon, frame)
+function MARKET_SELLEX_ON_INIT(addon, frame)
 	acutil.setupHook(ON_MARKET_SELL_LIST_HOOKED, "ON_MARKET_SELL_LIST");
 	acutil.setupHook(MARKET_SELL_REGISTER_HOOKED, "MARKET_SELL_REGISTER");
 end
@@ -41,11 +41,11 @@ local scp = "0";
 	return scp;
 end
 
+
 function ON_MARKET_SELL_LIST_HOOKED(frame, msg, argStr, argNum)
 	if msg == MARKET_ITEM_LIST then
 		local str = GET_TIME_TXT(argNum);
 		ui.SysMsg(ScpArgMsg("MarketCabinetAfter{TIME}","Time", str));
-
 		if frame:IsVisible() == 0 then
 	        return;
 	    end
@@ -78,6 +78,7 @@ function ON_MARKET_SELL_LIST_HOOKED(frame, msg, argStr, argNum)
 
 		local name = ctrlSet:GetChild("name");
 		name:SetTextByKey("value", collTxt);
+		name = tolua.cast(name, 'ui::CRichText'); 
 		name:SetTextAlign("left", "center");
 
 		local itemCount = ctrlSet:GetChild("count");
@@ -95,9 +96,9 @@ function ON_MARKET_SELL_LIST_HOOKED(frame, msg, argStr, argNum)
 		if marketItem.count >= 2 then
 			xnPrice = "計" .. GET_TRANS_PRICE(priceStr, 1);
 
-			if marketItem.sellPrice >=10000000 then
+			if priceStr >=10000000 then
 				xnPrice = "{nl}" .. xnPrice .. "(" .. GET_TRANS_PRICE(priceStr, 2) .. ")";
-			elseif marketItem.sellPrice >=1000 then
+			elseif priceStr >=1000 then
 				xnPrice = " / " .. xnPrice .. "(" .. GET_TRANS_PRICE(priceStr, 2) .. ")";
 			else
 				xnPrice = " / " .. xnPrice ;
@@ -105,6 +106,7 @@ function ON_MARKET_SELL_LIST_HOOKED(frame, msg, argStr, argNum)
 		end
 
 		totalPrice:SetTextByKey("value", x1Price .. xnPrice);
+		totalPrice = tolua.cast(totalPrice, 'ui::CRichText'); 
 		totalPrice:SetTextAlign("left", "center");
 
 		local cashValue = GetCashValue(marketItem.premuimState, "marketSellCom") * 0.01;
@@ -117,6 +119,7 @@ function ON_MARKET_SELL_LIST_HOOKED(frame, msg, argStr, argNum)
 		local silverFee = ctrlSet:GetChild("silverFee");
 
 		silverFee:SetTextByKey("value", stralue .. "% (" .. GET_TRANS_PRICE(priceStr, 1) ..")");
+		silverFee = tolua.cast(silverFee, 'ui::CRichText'); 
 		silverFee:SetTextAlign("left", "center");
 
 
