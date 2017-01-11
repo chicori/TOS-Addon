@@ -1,36 +1,40 @@
 CHAT_SYSTEM("marketsell ex loaded!");
+local acutil = require('acutil');
 
-function MARKETSELLACS_ON_INIT(addon, frame)
-    if (acutil ~= nil) then
-        acutil.setupEvent(addon, "ON_MARKET_SELL_LIST", "ON_MARKET_SELL_LIST_HOOKED")
-        acutil.setupEvent(addon, "MARKET_SELL_REGISTER", "MARKET_SELL_REGISTER_HOOKED")
-    else
-        _G["ON_MARKET_SELL_LIST"] = ON_MARKET_SELL_LIST_HOOKED;
-        _G["MARKET_SELL_REGISTER"] = MARKET_SELL_REGISTER_HOOKED;
-		
-    end
+function MARKETSELLEX_ON_INIT(addon, frame)
+	acutil.setupHook(ON_MARKET_SELL_LIST_HOOKED, "ON_MARKET_SELL_LIST");
+	acutil.setupHook(MARKET_SELL_REGISTER_HOOKED, "MARKET_SELL_REGISTER");
 end
 
 
 function GET_TRANS_PRICE(splitprice, flg)
---flg 1=comma only、2=K,M,G
+--flg 1 = comma : 1000 -> 1,000
+--    2 = K/M/G : 1000 -> 1k
 
-local scp = "";
+local trPrice = {
+[1] = {price = 1000;       sign = "K";};
+[2] = {price = 1000000;    sign = "M";};
+[3] = {price = 1000000000; sign = "G";};
+};
+local tblMax = table.maxn(trPrice);
+local scp = "0";
+
 	if flg == 1 then
 		scp = GetCommaedText(splitprice);
-	elseif flg == 2 then
-		if splitprice >= 1100000000 then
-			scp = string.sub(splitprice/1000000000,1,3) .. "G";
-		elseif splitprice >= 1000000000 then
-			scp = math.floor(splitprice/1000000000) .. "G";
-		elseif splitprice >= 1100000 then
-			scp = string.sub(splitprice/1000000,1,3) .. "M";
-		elseif splitprice >= 1000000 then
-			scp = math.floor(splitprice/1000000) .. "M";
-		elseif splitprice >= 1100 then
-			scp = string.sub(splitprice/1000,1,3) .. "K";
-		elseif splitprice >=1000 then
-			scp = math.floor(spritprice/1000) .. "K";
+
+	elseif flg == 2 then	
+		for i = 1, tblMax do
+			local float = 0;
+			local trPrices = trPrice[i].price;
+		
+			if splitprice >= trPrices then
+				float = splitprice%trPrices/(trPrices/10);
+				if float >= 1 then
+					scp = string.format("%d.%d",splitprice/trPrices,float)..trPrice[i].sign;
+				else
+					scp = string.format("%d",splitprice/trPrices)..trPrice[i].sign;
+				end
+			end
 		end
 	end
 
@@ -38,7 +42,6 @@ local scp = "";
 end
 
 function ON_MARKET_SELL_LIST_HOOKED(frame, msg, argStr, argNum)
-
 	if msg == MARKET_ITEM_LIST then
 		local str = GET_TIME_TXT(argNum);
 		ui.SysMsg(ScpArgMsg("MarketCabinetAfter{TIME}","Time", str));
@@ -66,27 +69,43 @@ function ON_MARKET_SELL_LIST_HOOKED(frame, msg, argStr, argNum)
 		local pic = GET_CHILD(ctrlSet, "pic", "ui::CPicture");
 		pic:SetImage(itemObj.Icon);
 
-		local collTxt = "";
+		collTxt = GET_FULL_NAME(itemObj);
 		if COLLECTION_ADD_CUSTOM_TOOLTIP_TEXT ~= nil then
-			collTxt = string.match(COLLECTION_ADD_CUSTOM_TOOLTIP_TEXT(itemObj),"%x%p%x");
-
-			if collTxt == "0/1" then
-				collTxt = "{img icon_item_box 18 18}" .. "{s14}未登録{/}" .. "{/}"
-			else
-				collTxt = "";
+			if string.match(COLLECTION_ADD_CUSTOM_TOOLTIP_TEXT(itemObj),"%d%p%d") == "0/1" then
+				collTxt = GET_FULL_NAME(itemObj) .. "{nl}{img icon_item_box 18 18}" .. "{s14}未登録{/}";
 			end
 		end
 
 		local name = ctrlSet:GetChild("name");
-		name:SetTextByKey("value", GET_FULL_NAME(itemObj) .. "{nl}　　" .. collTxt);
+		name:SetTextByKey("value", collTxt);
+		name:SetTextAlign("left", "center");
 
 		local itemCount = ctrlSet:GetChild("count");
 		itemCount:SetTextByKey("value", marketItem.count);
 
 		local priceStr = marketItem.sellPrice * marketItem.count;
 		local totalPrice = ctrlSet:GetChild("totalPrice");
-		totalPrice:SetTextByKey("value", "{img icon_item_silver 20 20}" .. GET_TRANS_PRICE(priceStr, 1) .. "{nl}(" .. GET_TRANS_PRICE(priceStr, 2) .. ")"); 	--Edit code
 
+		local x1Price = "＠" .. GET_TRANS_PRICE(marketItem.sellPrice, 1);
+			if marketItem.sellPrice >=1000 then
+				x1Price = x1Price .. "(" .. GET_TRANS_PRICE(marketItem.sellPrice, 2) .. ")";
+			end
+
+		local xnPrice = "";
+		if marketItem.count >= 2 then
+			xnPrice = "計" .. GET_TRANS_PRICE(priceStr, 1);
+
+			if marketItem.sellPrice >=10000000 then
+				xnPrice = "{nl}" .. xnPrice .. "(" .. GET_TRANS_PRICE(priceStr, 2) .. ")";
+			elseif marketItem.sellPrice >=1000 then
+				xnPrice = " / " .. xnPrice .. "(" .. GET_TRANS_PRICE(priceStr, 2) .. ")";
+			else
+				xnPrice = " / " .. xnPrice ;
+			end
+		end
+
+		totalPrice:SetTextByKey("value", x1Price .. xnPrice);
+		totalPrice:SetTextAlign("left", "center");
 
 		local cashValue = GetCashValue(marketItem.premuimState, "marketSellCom") * 0.01;
 		local stralue = GetCashValue(marketItem.premuimState, "marketSellCom");
@@ -94,9 +113,12 @@ function ON_MARKET_SELL_LIST_HOOKED(frame, msg, argStr, argNum)
 		local priceFloor = 0;
 		priceFloor = math.floor((marketItem.sellPrice*marketItem.count)*cashValue);
 		
-		priceStr = marketItem.sellPrice * marketItem.count * cashValue
+		priceStr = marketItem.sellPrice * marketItem.count * cashValue;
 		local silverFee = ctrlSet:GetChild("silverFee");
-		silverFee:SetTextByKey("value", "{img icon_item_silver 20 20}" .. GET_TRANS_PRICE(priceStr, 1) .. "{nl}(" .. stralue .. "%)");
+
+		silverFee:SetTextByKey("value", stralue .. "% (" .. GET_TRANS_PRICE(priceStr, 1) ..")");
+		silverFee:SetTextAlign("left", "center");
+
 
         SET_ITEM_TOOLTIP_ALL_TYPE(ctrlSet, marketItem, itemObj.ClassName, "market", marketItem.itemType, marketItem:GetMarketGuid());
 
@@ -109,14 +131,6 @@ function ON_MARKET_SELL_LIST_HOOKED(frame, msg, argStr, argNum)
 
     itemlist:RealignItems();
     GBOX_AUTO_ALIGN(itemlist, 10, 0, 0, false, true);
---local maxPage = math.ceil(session.market.GetTotalCount() / MARKET_SELL_ITEM_PER_PAGE);
---local curPage = session.market.GetCurPage();
---local pagecontrol = GET_CHILD(frame, 'pagecontrol', 'ui::CPageController')
---pagecontrol:SetMaxPage(maxPage);
---pagecontrol:SetCurPage(curPage);
-
---dofile("../data/addon_d/marketsellacs/marketsellacs.lua");
-
 end
 
 function MARKET_SELL_REGISTER_HOOKED(parent, ctrl)
@@ -194,14 +208,18 @@ function MARKET_SELL_REGISTER_HOOKED(parent, ctrl)
     local down = silverRate:GetChild("downValue");
     local downValue = down:GetTextByKey("value");
     local idownValue = tonumber(downValue);
-    local iPrice = tonumber(price);
-    if 0 ~= idownValue and  iPrice < idownValue then
-        ui.SysMsg(ScpArgMsg("PremiumRegMinPrice{Price}","Price", downValue));   
-        return;
-    end
+    local iPrice = tonumber(price);	
+
+	if 0 ~= idownValue and iPrice < idownValue then
+		if userType >= 1 then
+		else
+			ui.SysMsg(ScpArgMsg("PremiumRegMinPrice{Price}","Price", downValue));
+	        return;
+	    end
+	end
 
     if obj.GroupName == "Premium" and iPrice < tonumber(TOKEN_MARKET_REG_LIMIT_PRICE) then
-        ui.SysMsg(ScpArgMsg("PremiumRegMinPrice{Price}","Price", TOKEN_MARKET_REG_LIMIT_PRICE));        
+		ui.SysMsg(ScpArgMsg("PremiumRegMinPrice{Price}","Price", TOKEN_MARKET_REG_LIMIT_PRICE));
         return;
     end
 
@@ -283,4 +301,4 @@ function MARKET_SELL_REGISTER_HOOKED(parent, ctrl)
     end
 end
 
---dofile("../data/addon_d/marketsellacs/marketsellacs.lua");
+--dofile("../data/addon_d/marketsellex/marketsellex.lua");
