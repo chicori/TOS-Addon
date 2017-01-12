@@ -10,8 +10,8 @@ https://github.com/torahamu/TOSAddon/tree/master/marketshowlevel
 
 
 ■本家からの変更点、サンプルイメージ  
-https://github.com/chicori/TOS-Addon/blob/master/marketshowlevel_ex/read_me.jpg
-![](https://github.com/chicori/TOS-Addon/blob/master/marketshowlevel_ex/read_me.jpg)
+https://github.com/chicori/TOS-Addon/raw/master/marketshowlevel_ex/read_me.jpg
+![](https://github.com/chicori/TOS-Addon/raw/master/marketshowlevel_ex/read_me.jpg)
 
 
 ■使い方  
