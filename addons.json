@@ -26,5 +26,18 @@
 			"market",
 			"jp"
 		]
+	},
+	{
+		"name" : "Autosave money",
+		"file" : "autosavemoney",
+		"extension" : "ipf",
+		"fileVersion" : "v1.0.0",
+		"releaseTag" : "autosavemoney",
+		"unicode" : "⛄",
+		"description" : "チーム倉庫展開時に所持金100,000シルバーを残した金額を自動でセットします。",
+		"tags" : [
+			"ui",
+			"WAREHOUSE"
+		]
 	}
 ]
