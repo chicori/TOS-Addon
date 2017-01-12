@@ -37,7 +37,7 @@
 		"description" : "チーム倉庫展開時に所持金100,000シルバーを残した金額を自動でセットします。",
 		"tags" : [
 			"ui",
-			"WAREHOUSE"
+			"warehouse"
 		]
 	}
 ]
