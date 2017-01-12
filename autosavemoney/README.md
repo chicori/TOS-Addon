@@ -6,5 +6,5 @@
 2017.01.13 : v1.0.0 release
 
 #sample image
-https://github.com/chicori/TOS-Addon/blob/master/autosavemoney/readme.jpg
-![alt text](https://github.com/chicori/TOS-Addon/blob/master/autosavemoney/readme.jpg "money ss")
+https://github.com/chicori/TOS-Addon/raw/master/autosavemoney/readme.jpg
+![alt text](https://github.com/chicori/TOS-Addon/raw/master/autosavemoney/readme.jpg)
