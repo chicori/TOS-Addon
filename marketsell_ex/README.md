@@ -3,8 +3,8 @@
 
 # last update
 2017.01.12 : v1.0.2 bugfix  
-2017.01.12 : v1.0.1 bugfix
-2017.01.07 : v1.0.0 release
+2017.01.12 : v1.0.1 bugfix  
+2017.01.07 : v1.0.0 release  
 
 
 # sample image
