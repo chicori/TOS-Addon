@@ -16,7 +16,7 @@ local acutil = require('acutil');
 --lua読み込み時のメッセージ
 CHAT_SYSTEM(string.format("%s.lua is loaded", addonName));
 
-function TEMPLATE_SAVESETTINGS()
+function AUTOSAVEMONEY_SAVESETTINGS()
 	local cid = session.GetMySession():GetCID();
 	g.settingsFileLoc = string.format("../addons/%s/%s.json", addonNameLower, cid);
 	acutil.saveJSON(g.settingsFileLoc, g.settings);
@@ -30,7 +30,7 @@ function FIRSTLOAD_SETTINGS()
 		automode = false,
 		thresholdPrice = 100000
 		};
-	TEMPLATE_SAVESETTINGS();
+	AUTOSAVEMONEY_SAVESETTINGS();
 	local firstMsg = info.GetName(session.GetMyHandle()) .. "：アドオン[autosave money]初回起動です。{nl}デフォルト金額に100,000sをセットしました。{nl}[/asm 金額]でキャラ毎の設定ができます。"
 	CHAT_SYSTEM(firstMsg);
 end
@@ -43,8 +43,8 @@ function AUTOSAVEMONEY_ON_INIT(addon, frame)
 	g.addon = addon;
 	g.frame = frame;
 
-	acutil.slashCommand("/"..addonNameLower, TEMPLATE_PROCESS_COMMAND);
-	acutil.slashCommand("/asm", TEMPLATE_PROCESS_COMMAND);
+	acutil.slashCommand("/"..addonNameLower, AUTOSAVEMONEY_PROCESS_COMMAND);
+	acutil.slashCommand("/asm", AUTOSAVEMONEY_PROCESS_COMMAND);
 
 	local t, err = acutil.loadJSON(g.settingsFileLoc, g.settings);
 		if err then
@@ -54,7 +54,7 @@ function AUTOSAVEMONEY_ON_INIT(addon, frame)
 			--設定ファイル読み込み成功
 			acutil.loadJSON(g.settingsFileLoc, g.settings);
 			g.settings = t;
-			TEMPLATE_SAVESETTINGS();
+			AUTOSAVEMONEY_SAVESETTINGS();
 		end
 		g.loaded = true;
 
@@ -62,7 +62,7 @@ function AUTOSAVEMONEY_ON_INIT(addon, frame)
 --test:CHAT_SYSTEM(info.GetName(session.GetMyHandle()) .. ":" .. cid .. "/" .. g.settings.thresholdPrice)
 end
 
-function TEMPLATE_PROCESS_COMMAND(command)
+function AUTOSAVEMONEY_PROCESS_COMMAND(command)
 local cmd = "";
 
 	if #command > 0 then
@@ -76,29 +76,29 @@ local cmd = "";
 	--有効
 		g.settings.enable = true;
 		CHAT_SYSTEM(string.format("[%s] is enable", addonName));
-		TEMPLATE_SAVESETTINGS();
+		AUTOSAVEMONEY_SAVESETTINGS();
 		return;
 	elseif cmd == "off" then
 	--無効
 		g.settings.enable = false;
 		CHAT_SYSTEM(string.format("[%s] is disable", addonName));
-		TEMPLATE_SAVESETTINGS();
+		AUTOSAVEMONEY_SAVESETTINGS();
 		return;
 	elseif cmd == "autoon" then
 		g.settings.automode = true;
 		CHAT_SYSTEM(string.format("[%s] is autopayment on", addonName));
-		TEMPLATE_SAVESETTINGS();
+		AUTOSAVEMONEY_SAVESETTINGS();
 		return;
 	elseif cmd == "autooff" then
 		g.settings.automode = false;
 		CHAT_SYSTEM(string.format("[%s] is autopayment on", addonName));
-		TEMPLATE_SAVESETTINGS();
+		AUTOSAVEMONEY_SAVESETTINGS();
 		return;
 	elseif tonumber(cmd) >= 10000 then
 	--しきい値
 		g.settings.thresholdPrice = cmd;
 		CHAT_SYSTEM(string.format("[%s]設定 %s:しきい値%s%s", addonName, info.GetName(session.GetMyHandle()), GET_MONEY_IMG(14) ,GetCommaedText(cmd)));
-		TEMPLATE_SAVESETTINGS();
+		AUTOSAVEMONEY_SAVESETTINGS();
 		return;
 	elseif tonumber(cmd) >= 1 then
 		ui.SysMsg("1,000単位で指定してください")
@@ -126,9 +126,10 @@ function ON_OPEN_ACCOUNTWAREHOUSE_HOOKED(frame)
 		find_name:SetText(setPrice);
 		
 --		local automodeFlg = g.settings.automode;
---		if automode == true then
+--		if automodeFlg == true then
 --			ACCOUNT_WAREHOUSE_DEPOSIT();
 --		end
 	end	
 
+	ON_OPEN_ACCOUNTWAREHOUSE_OLD();
 end
