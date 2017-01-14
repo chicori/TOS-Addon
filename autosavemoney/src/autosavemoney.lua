@@ -20,7 +20,6 @@ function AUTOSAVEMONEY_SAVESETTINGS()
 	local cid = session.GetMySession():GetCID();
 	g.settingsFileLoc = string.format("../addons/%s/%s.json", addonNameLower, cid);
 	acutil.saveJSON(g.settingsFileLoc, g.settings);
-	acutil.loadJSON(g.settingsFileLoc, g.settings);
 end
 
 function FIRSTLOAD_SETTINGS()
@@ -31,7 +30,7 @@ function FIRSTLOAD_SETTINGS()
 		thresholdPrice = 100000
 		};
 	AUTOSAVEMONEY_SAVESETTINGS();
-	local firstMsg = info.GetName(session.GetMyHandle()) .. "：アドオン[autosave money]初回起動です。{nl}デフォルト金額に100,000sをセットしました。{nl}[/asm 金額]でキャラ毎の設定ができます。"
+	local firstMsg = info.GetName(session.GetMyHandle()) .. "：アドオン[autosave money]初回起動です。{nl}デフォルト金額に100,000をセットしました。{nl}[/asm 金額]でキャラ毎の設定ができます。"
 	CHAT_SYSTEM(firstMsg);
 end
 
@@ -48,17 +47,15 @@ function AUTOSAVEMONEY_ON_INIT(addon, frame)
 
 	local t, err = acutil.loadJSON(g.settingsFileLoc, g.settings);
 		if err then
-			--設定ファイル読み込み失敗
 			FIRSTLOAD_SETTINGS()
 		else
-			--設定ファイル読み込み成功
 			acutil.loadJSON(g.settingsFileLoc, g.settings);
 			g.settings = t;
 			AUTOSAVEMONEY_SAVESETTINGS();
 		end
 		g.loaded = true;
 
-	acutil.setupHook(ON_OPEN_ACCOUNTWAREHOUSE_HOOKED, "ON_OPEN_ACCOUNTWAREHOUSE");	
+	addon:RegisterMsg('OPEN_DLG_ACCOUNTWAREHOUSE', 'AUTOSAVEMONEY_SET');
 --test:CHAT_SYSTEM(info.GetName(session.GetMyHandle()) .. ":" .. cid .. "/" .. g.settings.thresholdPrice)
 end
 
@@ -94,7 +91,7 @@ local cmd = "";
 		CHAT_SYSTEM(string.format("[%s] is autopayment on", addonName));
 		AUTOSAVEMONEY_SAVESETTINGS();
 		return;
-	elseif tonumber(cmd) >= 10000 then
+	elseif tonumber(cmd) >= 1000 then
 	--しきい値
 		g.settings.thresholdPrice = cmd;
 		CHAT_SYSTEM(string.format("[%s]設定 %s:しきい値%s%s", addonName, info.GetName(session.GetMyHandle()), GET_MONEY_IMG(14) ,GetCommaedText(cmd)));
@@ -108,9 +105,7 @@ local cmd = "";
 end
 
 
-function ON_OPEN_ACCOUNTWAREHOUSE_HOOKED(frame)
-	ui.OpenFrame("accountwarehouse");
-
+function AUTOSAVEMONEY_SET(frame)
 	local inputPrice = GET_TOTAL_MONEY();
 	local thresholdPrice   = g.settings.thresholdPrice;
 
@@ -125,11 +120,10 @@ function ON_OPEN_ACCOUNTWAREHOUSE_HOOKED(frame)
 		local find_name = GET_CHILD(gBox, "moneyInput", "ui::CEditControl");
 		find_name:SetText(setPrice);
 		
---		local automodeFlg = g.settings.automode;
---		if automodeFlg == true then
+--		local automode = g.settings.automode;
+--		if automode == true then
 --			ACCOUNT_WAREHOUSE_DEPOSIT();
 --		end
 	end	
 
-	ON_OPEN_ACCOUNTWAREHOUSE_OLD();
 end
