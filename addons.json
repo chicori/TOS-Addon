@@ -31,7 +31,7 @@
 		"name" : "Autosave money",
 		"file" : "autosavemoney",
 		"extension" : "ipf",
-		"fileVersion" : "v1.0.1",
+		"fileVersion" : "v1.0.0",
 		"releaseTag" : "autosavemoney",
 		"unicode" : "⛄",
 		"description" : "【v1.0.1:金額の設定をキャラ毎にしました】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
