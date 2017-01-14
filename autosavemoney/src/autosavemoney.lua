@@ -126,7 +126,7 @@ function ON_OPEN_ACCOUNTWAREHOUSE_HOOKED(frame)
 		find_name:SetText(setPrice);
 		
 --		local automodeFlg = g.settings.automode;
---		if automodeFlg == true then
+--		if automode == true then
 --			ACCOUNT_WAREHOUSE_DEPOSIT();
 --		end
 	end	
