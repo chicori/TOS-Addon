@@ -125,7 +125,7 @@ function ON_OPEN_ACCOUNTWAREHOUSE_HOOKED(frame)
 		local find_name = GET_CHILD(gBox, "moneyInput", "ui::CEditControl");
 		find_name:SetText(setPrice);
 		
---		local automodeFlg = g.settings.automode = true;
+--		local automodeFlg = g.settings.automode;
 --		if automodeFlg == true then
 --			ACCOUNT_WAREHOUSE_DEPOSIT();
 --		end
