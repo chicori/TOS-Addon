@@ -86,7 +86,7 @@ function ON_MARKET_SELL_LIST_HOOKED(frame, msg, argStr, argNum)
 		collTxt = GET_FULL_NAME(itemObj);
 		if COLLECTION_ADD_CUSTOM_TOOLTIP_TEXT ~= nil then
 			if string.match(COLLECTION_ADD_CUSTOM_TOOLTIP_TEXT(itemObj),"%d%p%d") == "0/1" then
-				collTxt = GET_FULL_NAME(itemObj) .. "{nl}{img icon_item_box 18 18}" .. "{s14}譛ｪ逋ｻ骭ｲ{/}";
+				collTxt = GET_FULL_NAME(itemObj) .. "{nl}{img icon_item_box 18 18}" .. "{s14}未登録{/}";
 			end
 		end
 
@@ -101,14 +101,14 @@ function ON_MARKET_SELL_LIST_HOOKED(frame, msg, argStr, argNum)
 		local priceStr = marketItem.sellPrice * marketItem.count;
 		local totalPrice = ctrlSet:GetChild("totalPrice");
 
-		local x1Price = "・" .. GET_TRANS_PRICE(marketItem.sellPrice, 1);
+		local x1Price = "＠" .. GET_TRANS_PRICE(marketItem.sellPrice, 1);
 			if marketItem.sellPrice >=1000 then
 				x1Price = x1Price .. "(" .. GET_TRANS_PRICE(marketItem.sellPrice, 2) .. ")";
 			end
 
 		local xnPrice = "";
 		if marketItem.count >= 2 then
-			xnPrice = "險・ .. GET_TRANS_PRICE(priceStr, 1);
+			xnPrice = "計" .. GET_TRANS_PRICE(priceStr, 1);
 
 			if priceStr >=10000000 then
 				xnPrice = "{nl}" .. xnPrice .. "(" .. GET_TRANS_PRICE(priceStr, 2) .. ")";
@@ -285,19 +285,19 @@ function MARKET_SELL_REGISTER_HOOKED(parent, ctrl)
     end
 
 	local silverIcon = "{img icon_item_silver 20 20}";
-	local sellMsg    = "谺｡縺ｮ驥鷹｡阪〒雋ｩ螢ｲ逋ｻ骭ｲ縺励∪縺吶・;
+	local sellMsg    = "次の金額で販売登録します。";
 	local sellItem   = "{nl} {nl}{img " .. obj["Icon"] .. " 40 40} " .. GET_FULL_NAME(obj)
-	local sellPrice  = "{nl} {nl}雋ｩ螢ｲ蜊倅ｾ｡・・ .. silverIcon .. GET_TRANS_PRICE(price, 1) .. "繧ｷ繝ｫ繝舌・(" .. GET_TRANS_PRICE(price, 2) ..")";
-	local sellTax    = "{nl} {nl}雋ｩ螢ｲ謇区焚譁呻ｼ・ .. silverIcon .. GET_TRANS_PRICE(tostring(commission), 1) .. "繧ｷ繝ｫ繝舌・";
-	local underRate  = "{nl} {nl}荳矩剞繝ｬ繝ｼ繝茨ｼ・ .. string.sub(math.floor(price/downValue*10)*0.1,1,4);
+	local sellPrice  = "{nl} {nl}販売単価：" .. silverIcon .. GET_TRANS_PRICE(price, 1) .. "シルバー(" .. GET_TRANS_PRICE(price, 2) ..")";
+	local sellTax    = "{nl} {nl}販売手数料：" .. silverIcon .. GET_TRANS_PRICE(tostring(commission), 1) .. "シルバー";
+	local underRate  = "{nl} {nl}下限レート：" .. string.sub(math.floor(price/downValue*10)*0.1,1,4);
 	local collTxt    = "";
 
 
 		if price <= 999 then
-			sellPrice = "{nl} {nl}雋ｩ螢ｲ蜊倅ｾ｡・・ .. silverIcon .. GET_TRANS_PRICE(price, 1) .. "繧ｷ繝ｫ繝舌・";
+			sellPrice = "{nl} {nl}販売単価：" .. silverIcon .. GET_TRANS_PRICE(price, 1) .. "シルバー";
 		end
 		if idownValue == 0 then
-			underRate = "{nl} {nl}[逶ｸ蝣ｴ諠・ｱ縺ｪ縺余";
+			underRate = "{nl} {nl}[相場情報なし]";
 		end
 
 		if COLLECTION_ADD_CUSTOM_TOOLTIP_TEXT ~= nil then
@@ -314,7 +314,7 @@ function MARKET_SELL_REGISTER_HOOKED(parent, ctrl)
         end
     else
 --original   ui.MsgBox(ScpArgMsg("CommissionRegMarketItem{Price}","Price", tostring(commission)), yesScp, "None");
-             ui.MsgBox(sellMsg .. sellItem .. " ﾃ・" .. count .. sellPrice .. sellTax .. underRate .. collTxt, yesScp, "None");
+             ui.MsgBox(sellMsg .. sellItem .. " × " .. count .. sellPrice .. sellTax .. underRate .. collTxt, yesScp, "None");
     end
 end
 
