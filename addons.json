@@ -31,10 +31,10 @@
 		"name" : "Autosave money",
 		"file" : "autosavemoney",
 		"extension" : "ipf",
-		"fileVersion" : "v1.0.0",
+		"fileVersion" : "v1.0.1",
 		"releaseTag" : "autosavemoney",
 		"unicode" : "⛄",
-		"description" : "チーム倉庫展開時に所持金100,000シルバーを残した金額を自動でセットします。",
+		"description" : "【v1.0.1:キャラ毎に金額の設定】チーム倉庫の入金欄に設定した金額残した全額を自動でセットします。",
 		"tags" : [
 			"ui",
 			"warehouse"
