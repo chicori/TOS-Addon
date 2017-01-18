@@ -39,5 +39,18 @@
 			"ui",
 			"warehouse"
 		]
+	},
+	{
+		"name" : "Check Skillshop",
+		"file" : "checkskillshop",
+		"extension" : "ipf",
+		"fileVersion" : "v1.0.0",
+		"releaseTag" : "checkskillshop",
+		"unicode" : "⛄",
+		"description" : "スキルショップ（バフ屋）のスキルを購入時に確認メッセージを表示します。",
+		"tags" : [
+			"ui",
+			"skillshop"
+		]
 	}
 ]
