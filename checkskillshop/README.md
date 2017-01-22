@@ -5,4 +5,4 @@
 2017.01.18 : v1.0.0 release
 
 # sample image
-![alt text](https://github.com/chicori/TOS-Addon/raw/master/checkskillshop/readme.jpg)
+![alt text](https://github.com/chicori/TOS-Addon/raw/master/checkskillshop/readme2.jpg)
