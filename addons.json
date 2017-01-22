@@ -44,10 +44,10 @@
 		"name" : "Check Skillshop",
 		"file" : "checkskillshop",
 		"extension" : "ipf",
-		"fileVersion" : "v1.0.0",
+		"fileVersion" : "v1.0.1",
 		"releaseTag" : "checkskillshop",
 		"unicode" : "⛄",
-		"description" : "スキルショップ（バフ屋）のスキルを購入時に確認メッセージを表示します。",
+		"description" : "【v1.0.1:バフが既にかかっている場合の処理追加】スキルショップ（バフ屋）のスキルを購入時に確認メッセージを表示します。",
 		"tags" : [
 			"ui",
 			"skillshop"
