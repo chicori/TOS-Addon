@@ -52,5 +52,18 @@
 			"ui",
 			"skillshop"
 		]
+	},
+	{
+		"name" : "Check Blessed shard",
+		"file" : "checkblessedshard",
+		"extension" : "ipf",
+		"fileVersion" : "v1.0.0",
+		"releaseTag" : "checkblessedshard",
+		"unicode" : "⛄",
+		"description" : "倉庫を開いたときに「祝福された欠片」を所持している場合、確認メッセージを表示します。それだけ。",
+		"tags" : [
+			"ui",
+			"warehouse"
+		]
 	}
 ]
