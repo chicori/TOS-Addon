@@ -12,5 +12,5 @@
 ■Check Skillshop  
 スキルショップ（バフ屋）のスキルを購入時に確認メッセージを表示します。
 
-■Check Blessedshard  
+■Check Blessedshard  
 倉庫を開いたときに「祝福された欠片」を所持している場合、確認メッセージを表示します。それだけ。
