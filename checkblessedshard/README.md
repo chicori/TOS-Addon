@@ -6,4 +6,4 @@
 2017.01.28 : v1.0.0 release
 
 # sample image
-![alt text](https://github.com/chicori/TOS-Addon/raw/master/checkblessedshard/readme.jpg)
+![alt text](https://github.com/chicori/TOS-Addon/raw/master/checkblessedshard/readme2.jpg)
