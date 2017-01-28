@@ -1,4 +1,4 @@
-﻿local addonName = "CHECKBLESSEDSHARD"
+local addonName = "CHECKBLESSEDSHARD"
 local addonNameLower = string.lower(addonName)
 local author = "CHICORI"
 
@@ -31,9 +31,6 @@ function CHECK_CHECKBLESSEDSHARD()
 		index = invList:Next(index)
 
 		local itemObj = GetIES(invItem:GetObject())
-		if itemObj == nil then
-			break
-		end
 
 		if itemObj.ClassID == findItem then
 			local itemMsg = {
@@ -45,6 +42,7 @@ function CHECK_CHECKBLESSEDSHARD()
 			ui.MsgBox(string.format("%s%s%s",itemMsg.icon
 											,itemMsg.name
 											,itemMsg.msg))
+			break
 		end
 	end
 end
