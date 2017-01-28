@@ -34,14 +34,14 @@ function CHECK_CHECKBLESSEDSHARD()
 
 		if itemObj.ClassID == findItem then
 			local itemMsg = {
-							icon = "{img " .. itemObj.Icon .. " 30 30} "
-							,name = itemObj.Name
-							,msg  = "を所持しています。"
-							}
+					icon = "{img " .. itemObj.Icon .. " 30 30} "
+					,name = itemObj.Name
+					,msg  = "を所持しています。"
+					}
 		
 			ui.MsgBox(string.format("%s%s%s",itemMsg.icon
-											,itemMsg.name
-											,itemMsg.msg))
+							,itemMsg.name
+							,itemMsg.msg))
 			break
 		end
 	end
