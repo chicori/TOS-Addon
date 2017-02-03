@@ -5,4 +5,4 @@
 2017.02.1 : v1.0.0 release
 
 # sample image
-![alt text](buffshop_ex/readme.jpg)
+![alt text](https://github.com/chicori/TOS-Addon/raw/master/buffshop_ex/readme.jpg)
