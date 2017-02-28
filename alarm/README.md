@@ -4,4 +4,4 @@
 2017.03.01 : v0.1.0 release（人柱版）
 
 # sample image
-![alt text](https://github.com/chicori/TOS-Addon/raw/master/alarm/readme.jpg)
+![alt text](https://github.com/chicori/TOS-Addon/raw/master/alarm/README.jpg)
