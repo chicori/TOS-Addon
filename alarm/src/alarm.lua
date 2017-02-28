@@ -136,7 +136,7 @@ function ALARM_ON_INIT(addon, frame)
 			if err then
 				-- フォルダ作ってファイル作る
 --				ALARM_CREATE_DIR(g.settingsDirLoc);
-				ALARM_SAVE_SETTINGS();
+				acutil.saveJSON(g.settingsFileLoc, g.settings);
 			else
 				-- 読み込めたら読み込んだ値使う
 				g.settings = t;
@@ -450,6 +450,7 @@ function ALARM_ACTION(frame, msg, argStr, argNum)
 
 					CHAT_SYSTEM(string.format("【指定時間後通知】%02d:%02d経過%s",g.settings["set"..i].hour,g.settings["set"..i].minute,g.settings["set"..i].body));
 					g.settings["set"..i].repeatcount = tonumber(g.settings["set"..i].repeatcount)-1
+					g.settings["set"..i].startdate = math.floor(GetServerAppTime()/60)
 					acutil.saveJSON(g.settingsFileLoc, g.settings);
 				end
 			end
