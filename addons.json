@@ -78,5 +78,18 @@
 			"ui",
 			"buffshop"
 		]
+	},
+	{
+		"name" : "Alarm",
+		"file" : "alarm",
+		"extension" : "ipf",
+		"fileVersion" : "v0.1.0",
+		"releaseTag" : "alarm",
+		"unicode" : "⛄",
+		"description" : "※人柱版アラームです。安定版はもう少しお待ちください。コマンド：/alarm /al",
+		"tags" : [
+			"utility",
+			"time"
+		]
 	}
 ]
