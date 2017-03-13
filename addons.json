@@ -83,7 +83,7 @@
 		"name" : "Alarm",
 		"file" : "alarm",
 		"extension" : "ipf",
-		"fileVersion" : "v0.7.0",
+		"fileVersion" : "v0.7.1",
 		"releaseTag" : "alarm",
 		"unicode" : "⛄",
 		"description" : "v0.7.0：色々追加。文字と音で通知する、いわゆるアラームです。ミニマップ上の時計を「左クリックで設定画面」、「右クリックでディルゲレタイマー」です。",
