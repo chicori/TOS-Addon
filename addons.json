@@ -83,10 +83,10 @@
 		"name" : "Alarm",
 		"file" : "alarm",
 		"extension" : "ipf",
-		"fileVersion" : "v0.1.1",
+		"fileVersion" : "v0.7.0",
 		"releaseTag" : "alarm",
 		"unicode" : "⛄",
-		"description" : "※人柱版アラームです。安定版はもう少しお待ちください。コマンド：/alarm /al",
+		"description" : "v0.7.0：色々追加。文字と音で通知する、いわゆるアラームです。時計を「左クリックで設定画面」、「右クリックでディルゲレタイマー」です。",
 		"tags" : [
 			"utility",
 			"time"
