@@ -91,5 +91,18 @@
 			"utility",
 			"time"
 		]
+	},
+	{
+		"name" : "F**K Alert",
+		"file" : "fkalert",
+		"extension" : "ipf",
+		"fileVersion" : "v1.0.0",
+		"releaseTag" : "F**K",
+		"unicode" : "⛄",
+		"description" : "うざったいメッセージは３秒後に飛んでいってもらおうと思う",
+		"tags" : [
+			"utility",
+			"time"
+		]
 	}
 ]
