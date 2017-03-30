@@ -70,10 +70,10 @@
 		"name" : "Buffshop Ex",
 		"file" : "buffshopex",
 		"extension" : "ipf",
-		"fileVersion" : "v1.0.0",
+		"fileVersion" : "v1.0.1",
 		"releaseTag" : "buffshopex",
 		"unicode" : "⛄",
-		"description" : "パードナーのスペルショップ（バフ屋）スキルを使用した際に、予め登録しておいた店名、価格をセットします。",
+		"description" : "【v1.0.1：原価表示・設定ボタンの追加】パードナーのスペルショップ（バフ屋）スキルを使用した際に、予め登録しておいた店名、価格をセットします。",
 		"tags" : [
 			"ui",
 			"buffshop"
@@ -86,7 +86,7 @@
 		"fileVersion" : "v0.7.1",
 		"releaseTag" : "alarm",
 		"unicode" : "⛄",
-		"description" : "v0.7.0：色々追加。文字と音で通知する、いわゆるアラームです。ミニマップ上の時計を「左クリックで設定画面」、「右クリックでディルゲレタイマー」です。",
+		"description" : "【v0.7.0：色々追加】文字と音で通知する、いわゆるアラームです。ミニマップ上の時計を「左クリックで設定画面」、「右クリックでディルゲレタイマー」です。",
 		"tags" : [
 			"utility",
 			"time"
