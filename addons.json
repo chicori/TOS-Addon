@@ -104,5 +104,18 @@
 			"utility",
 			"f**K"
 		]
+	},
+	{
+		"name" : "Gemroastshop Ex",
+		"file" : "gemroastshopex",
+		"extension" : "ipf",
+		"fileVersion" : "v1.0.0",
+		"releaseTag" : "gemroastshopex",
+		"unicode" : "⛄",
+		"description" : "アルケミストC2スキルのジェムロースティング（ジェム焼き商店）を使用した際に、予め登録しておいた店名、価格をセットします。",
+		"tags" : [
+			"ui",
+			"gemroastshop"
+		]
 	}
 ]
