@@ -20,10 +20,10 @@ local acutil = require('acutil')
 if not g.loaded then
   g.settings = {
     enable = true,
-	shop   = "おみせ",
-	aspar  = 1000,
-	bless  = 400,
-	sacra  = 700
+	shop   = "",
+	aspar  = 714,
+	bless  = 285,
+	sacra  = 5
   }
 end
 
@@ -98,11 +98,11 @@ function BUFFSHOPEX_PROCESS_COMMAND(command)
 		local cmdPrice = tonumber(string.sub(cmd,2))
 		local altMsg = "アスパーションを次の価格で保存します。"
 
-		if 1000 >= tonumber(cmdPrice) then
-			altMsg = "アスパーションの原価は1000sです。{nl}原価以下になりますが保存しますか？"
+		if 714 >= tonumber(cmdPrice) then
+			altMsg = "アスパーションの原価は714sです。{nl}原価以下になりますが保存しますか？"
 		end
 
-		local calcPrice = cmdPrice - 1000
+		local calcPrice = cmdPrice - 714
 		local yesscp    = string.format("SKILLPRICE_SAVE(%q)",cmd)
 		ui.MsgBox(altMsg .. "{nl} {nl}（設定額:" .. cmdPrice .. "s / 差益:".. calcPrice .."s)",yesscp,"None")
 		return
@@ -111,11 +111,11 @@ function BUFFSHOPEX_PROCESS_COMMAND(command)
 		local cmdPrice = tonumber(string.sub(cmd,2))
 		local altMsg   = "ブレッシングを次の価格で保存します。"
 
-		if 400 >= cmdPrice then
-			altMsg = "ブレッシングの原価は400sです。{nl}原価以下になりますが保存しますか？"
+		if 285 >= cmdPrice then
+			altMsg = "ブレッシングの原価は285sです。{nl}原価以下になりますが保存しますか？"
 		end
 
-		local calcPrice = cmdPrice - 400
+		local calcPrice = cmdPrice - 285
 		local yesscp = string.format("SKILLPRICE_SAVE(%q)",cmd)
 		ui.MsgBox(altMsg .. "{nl} {nl}（設定額:" .. cmdPrice .. "s / 差益:".. calcPrice .."s)",yesscp,"None")
 		return
@@ -124,11 +124,11 @@ function BUFFSHOPEX_PROCESS_COMMAND(command)
 		local cmdPrice = tonumber(string.sub(cmd,2))
 		local altMsg   = "サクラメントを次の価格で保存します。"
 
-		if 700 >= tonumber(cmdPrice) then
-			altMsg = "サクラメントの原価は700sです。{nl}原価以下になりますが保存しますか？"
+		if 5 >= tonumber(cmdPrice) then
+			altMsg = "サクラメントの原価は5sです。{nl}原価以下になりますが保存しますか？"
 		end
 
-		local calcPrice = cmdPrice - 700
+		local calcPrice = cmdPrice - 5
 		local yesscp = string.format("SKILLPRICE_SAVE(%q)",cmd)
 		ui.MsgBox(altMsg .. "{nl} {nl}（設定額:" .. cmdPrice .. "s / 差益:".. calcPrice .."s)",yesscp,"None")
 		return
@@ -180,7 +180,32 @@ function BUFFSELLER_REG_OPEN_HOOKED(frame)
 	local gBox     = GET_CHILD(frame, "gbox")
 	local sellList = GET_CHILD(gBox, "selllist")
 	local shopName = GET_CHILD(gBox, "inputname", "ui::CEditControl")
-	shopName:SetText(g.settings.shop)
+
+
+--えもーしょん変換
+	InputText = g.settings.shop
+--  {img emoticon_0001 50 50}バフ屋だよー
+--	#e01##バフ屋だよー
+
+	InputText = string.gsub(InputText,"#e","{img emoticon_00")
+--  {img emoticon_0001 50 50}バフ屋だよー
+--	{img emoticon_0001##バフ屋だよー
+
+	InputText = string.gsub(InputText,"}","}{/}")
+--  {img emoticon_0001 50 50}{\/}バフ屋だよー
+--	{img emoticon_0001##バフ屋だよー
+
+
+	InputText = string.gsub(InputText,"##"," 35 35}{/}")
+--  {img emoticon_0001 50 50}{\/}バフ屋だよー
+--	{img emoticon_0001 50 50}{\/}バフ屋だよー
+
+	InputText = string.gsub(InputText,"\\","")
+--	{img emoticon_0001 50 50}{/}バフ屋だよー
+
+	shopName:SetText(InputText)
+
+--dofile("../data/addon_d/buffshopex/buffshopex.lua");
 
 
 --スキルセット
@@ -207,4 +232,171 @@ function BUFFSELLER_REG_OPEN_HOOKED(frame)
 		BUFFSELLER_TYPING_PRICE(ctrlSet, priceIn)
 	end
 
+
+--//ボタン：エモーション
+	local emo_button = frame:CreateOrGetControl("button", "BUFFSHOP_EMO_BTN", 225, 58, 80, 22);
+	tolua.cast(emo_button, "ui::CButton");
+	emo_button:SetFontName("white_16_ol");
+	emo_button:SetEventScript(ui.LBUTTONDOWN, "EMO_LIST");
+	emo_button:SetText("Img List");
+
+
+--//ボタン：保存
+	local save_button = frame:CreateOrGetControl("button", "BUFFSHOP_SAVE_BTN", 320, 58, 120, 22);
+	tolua.cast(save_button, "ui::CButton");
+	save_button:SetFontName("white_16_ol");
+	save_button:SetEventScript(ui.LBUTTONDOWN, "BUFFSHOP_SAVEBTN");
+	save_button:SetText("設定保存");
+
+
+--//ラベル：アスパ原価
+	local setLbl   = sellList:CreateOrGetControl("richtext", "BUFFSHOP_ASPAR_LBL", 260, 65, 50, 50);
+	tolua.cast(setLbl, "ui::CRichText");
+	setLbl:SetFontName("white_14_ol");
+	setLbl:SetText("原価 : 714");
+
+--//ラベル：ブレス原価
+	setLbl = sellList:CreateOrGetControl("richtext", "BUFFSHOP_BLESS_LBL", 260, 185, 50, 50);
+	tolua.cast(setLbl, "ui::CRichText");
+	setLbl:SetFontName("white_14_ol");
+	setLbl:SetText("原価 : 285");
+
+--//ラベル：サクラ原価
+	setLbl = sellList:CreateOrGetControl("richtext", "BUFFSHOP_SACRA_LBL", 260, 305, 50, 50);
+	tolua.cast(setLbl, "ui::CRichText");
+	setLbl:SetFontName("white_14_ol");
+	setLbl:SetText("原価 : 5");
+	
+	
+--	local testBB = GET_CHILD(gBox, "inputname"):GetText()
+
+
+end
+
+function BUFFSHOP_SAVEBTN(frame)
+
+	local gBox     = GET_CHILD(frame, "gbox")
+	local sellList = GET_CHILD(gBox, "selllist")
+	local shopName = GET_CHILD(gBox, "inputname"):GetText()
+
+
+--露店名
+	local shopNames = GET_CHILD(gBox, "inputname", "ui::CEditControl")
+
+--えもーしょん変換
+	InputText = shopName
+--  {img emoticon_0001 50 50}バフ屋だよー
+--	#e01##バフ屋だよー
+
+	InputText = string.gsub(InputText,"#e","{img emoticon_00")
+--  {img emoticon_0001 50 50}バフ屋だよー
+--	{img emoticon_0001##バフ屋だよー
+
+	InputText = string.gsub(InputText,"}","}{/}")
+--  {img emoticon_0001 50 50}{\/}バフ屋だよー
+--	{img emoticon_0001##バフ屋だよー
+
+
+	InputText = string.gsub(InputText,"##"," 35 35}{/}")
+--  {img emoticon_0001 50 50}{\/}バフ屋だよー
+--	{img emoticon_0001 50 50}{\/}バフ屋だよー
+
+	InputText = string.gsub(InputText,"\\","")
+--	{img emoticon_0001 50 50}{/}バフ屋だよー
+
+	shopNames:SetText(InputText)
+
+--dofile("../data/addon_d/buffshopex/buffshopex.lua");
+
+
+	local ctrlSet  = GET_CHILD(sellList, "CTRLSET_0")
+	local setAspar = GET_CHILD(ctrlSet, "priceinput"):GetText()
+
+
+	local ctrlSet  = GET_CHILD(sellList, "CTRLSET_1")
+	local setBless = GET_CHILD(ctrlSet, "priceinput"):GetText()
+
+
+	local ctrlSet  = GET_CHILD(sellList, "CTRLSET_2")
+	local setSacra = GET_CHILD(ctrlSet, "priceinput"):GetText()
+
+
+
+	string.gsub(shopName,"\\","")
+	local SaveMsg = "商店名：".. shopName .. "{nl}アスパ：" .. setAspar.."{nl}ブレス："..setBless.."{nl}サクラ："..setSacra.."{nl} {nl}以上の内容で登録しますか？"
+	ui.MsgBox(SaveMsg,"BUFFSHOP_SAVEBTNACT(\"" .. shopName .. "\"," .. setAspar .. "," .. setBless .. "," ..setSacra .. ")","None")
+
+end
+
+function BUFFSHOP_SAVEBTNACT(shopName,setAspar,setBless,setSacra)
+
+	g.settings.shop = shopName
+	g.settings.aspar = setAspar
+	g.settings.bless = setBless
+	g.settings.sacra = setSacra
+	BUFFSHOPEX_SAVE_SETTINGS()
+	
+	CHAT_SYSTEM(shopName .."/ｱｽﾊﾟ".. setAspar .."/ﾌﾞﾚｽ".. setBless .."/ｻｸﾗ".. setSacra.."で登録しました。")
+
+end
+--dofile("../data/addon_d/buffshopex/buffshopex.lua");
+
+
+
+function EMO_LIST()
+local sampleEmo =
+	"～　エモーションの使い方　～{nl} {nl}"..
+	"入力欄に　#e番号##　と入力する{nl}"..
+	"※一度設定保存してください{nl} {nl}"..
+	"例：バフ屋#e01##だよー　{nl}"..
+	"　　バフ屋{img emoticon_0001 35 35}だよー{/}{nl} {nl}"..
+
+	"01 = {img emoticon_0001 35 35}{/}"..
+	"02 = {img emoticon_0002 35 35}{/}"..
+	"03 = {img emoticon_0003 35 35}{/}{nl}"..
+	"04 = {img emoticon_0004 35 35}{/}"..
+	"05 = {img emoticon_0005 35 35}{/}"..
+	"06 = {img emoticon_0006 35 35}{/}{nl}"..
+	"07 = {img emoticon_0007 35 35}{/}"..
+	"08 = {img emoticon_0008 35 35}{/}"..
+	"09 = {img emoticon_0009 35 35}{/}{nl}"..
+	"10 = {img emoticon_0010 35 35}{/}"..
+	"11 = {img emoticon_0011 35 35}{/}"..
+	"12 = {img emoticon_0012 35 35}{/}{nl}"..
+	"13 = {img emoticon_0013 35 35}{/}"..
+	"14 = {img emoticon_0014 35 35}{/}"..
+	"15 = {img emoticon_0015 35 35}{/}{nl}"..
+	"16 = {img emoticon_0016 35 35}{/}"..
+	"17 = {img emoticon_0017 35 35}{/}"..
+	"18 = {img emoticon_0018 35 35}{/}{nl}"..
+	"19 = {img emoticon_0019 35 35}{/}"..
+	"20 = {img emoticon_0020 35 35}{/}"..
+	"21 = {img emoticon_0021 35 35}{/}{nl}"..
+	"22 = {img emoticon_0022 35 35}{/}"..
+	"23 = {img emoticon_0023 35 35}{/}"..
+	"24 = {img emoticon_0024 35 35}{/}{nl}"..
+	"25 = {img emoticon_0025 35 35}{/}"..
+	"26 = {img emoticon_0026 35 35}{/}"..
+	"27 = {img emoticon_0027 35 35}{/}{nl}"..
+	"28 = {img emoticon_0028 35 35}{/}"..
+	"29 = {img emoticon_0029 35 35}{/}"..
+	"30 = {img emoticon_0030 35 35}{/}{nl}"..
+	"31 = {img emoticon_0031 35 35}{/}"..
+	"32 = {img emoticon_0032 35 35}{/}"..
+	"33 = {img emoticon_0033 35 35}{/}{nl}"..
+	"34 = {img emoticon_0034 35 35}{/}"..
+	"35 = {img emoticon_0035 35 35}{/}"..
+	"36 = {img emoticon_0036 35 35}{/}{nl}"..
+	"37 = {img emoticon_0037 35 35}{/}"..
+	"38 = {img emoticon_0038 35 35}{/}"..
+	"39 = {img emoticon_0039 35 35}{/}{nl}"..
+	"40 = {img emoticon_0040 35 35}{/}"..
+	"41 = {img emoticon_0041 35 35}{/}"..
+	"42 = {img emoticon_0042 35 35}{/}{nl}"..
+	"43 = {img emoticon_0043 35 35}{/}"..
+	"44 = {img emoticon_0044 35 35}{/}"..
+	"45 = {img emoticon_0045 35 35}{/}{nl}"..
+	"46 = {img emoticon_0046 35 35}{/}"
+
+	ui.MsgBox(sampleEmo,"none","none")
 end
