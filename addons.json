@@ -17,10 +17,10 @@
 		"name" : "Market Sell Ex",
 		"file" : "marketsell_ex",
 		"extension" : "ipf",
-		"fileVersion" : "v1.0.3",
+		"fileVersion" : "v1.0.4",
 		"releaseTag" : "marketsell_ex",
 		"unicode" : "⛄",
-		"description" : "【v1.0.3bugfix】マーケットの販売登録画面で金額にカンマ付与、ＫＭＧ単位の併記、コレクション確認などを表示します。",
+		"description" : "【v1.0.4:bugfix(2017.04.27公式updateに対応)】マーケットの販売登録画面で金額にカンマ付与、ＫＭＧ単位の併記、コレクション確認などを表示します。",
 		"tags" : [
 			"ui",
 			"market",
