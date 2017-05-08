@@ -116,14 +116,73 @@ function AUTOSAVEMONEY_SET(frame)
 	if inputPrice >= (thresholdPrice + 1000) then
 		local setPrice = math.floor(inputPrice/1000-(thresholdPrice/1000))*1000;
 		local frame = ui.GetFrame("accountwarehouse");
-		local gBox = GET_CHILD(frame, "gbox");
-		local find_name = GET_CHILD(gBox, "moneyInput", "ui::CEditControl");
+		local logBox = GET_CHILD(frame, "logbox");
+		local depBox = GET_CHILD(logBox, "DepositSkin")
+		local find_name = GET_CHILD(depBox, "moneyInput", "ui::CEditControl");
 		find_name:SetText(setPrice);
 		
---		local automode = g.settings.automode;
---		if automode == true then
---			ACCOUNT_WAREHOUSE_DEPOSIT();
---		end
+		local automode = g.settings.automode;
+		if automode == true then
+			ACCOUNT_WAREHOUSE_DEPOSIT(frame)
+		end
 	end	
+--dofile("../data/addon_d/autosavemoney/autosavemoney.lua");
 
+	if g.settings.enable == true then
+		local whframe = ui.GetFrame("accountwarehouse");
+		local save_button = whframe:CreateOrGetControl("button", "AUTOSAVEMONEY_SAVE_BUTTON",25, 710, 80, 30);
+		tolua.cast(save_button, "ui::CButton");
+		save_button:SetFontName("white_16_ol");
+		save_button:SetEventScript(ui.LBUTTONDOWN, "AUTOSAVEMONEY_SETTING");
+		save_button:SetText("ASM設定");
+		
+		local save_text = whframe:CreateOrGetControl("edit", "AUTOSAVEMONEY_SAVE_TEXT",110, 710, 80, 30);
+		tolua.cast(save_text, "ui::CEditControl");
+		save_text:MakeTextPack();
+		save_text:SetTextAlign("center", "center");
+		save_text:SetFontName("white_16_ol");
+		save_text:SetSkinName("systemmenu_vertical");
+		save_text:SetText(thresholdPrice)
+
+
+		local automode_lbl = whframe:CreateOrGetControl("richtext", "AUTOSAVEMONEY_AUTOMODE_LBL",200, 715, 35, 35);
+		tolua.cast(automode_lbl, "ui::CRichText");
+		automode_lbl:SetFontName("white_16_ol");
+		automode_lbl:SetText("{@st43}{s18}" .. "自動入金" .. "{/}");
+
+		local automode_cbx = whframe:CreateOrGetControl("checkbox", "AUTOSAVEMONEY_AUTOMODE_CBX",280, 710, 35, 35);
+		tolua.cast(automode_cbx, "ui::CCheckBox");
+		automode_cbx:SetClickSound("button_click_big");
+		automode_cbx:SetAnimation("MouseOnAnim",  "btn_mouseover");
+		automode_cbx:SetAnimation("MouseOffAnim", "btn_mouseoff");
+		automode_cbx:SetOverSound("button_over");
+		automode_cbx:SetEventScript(ui.LBUTTONUP, "AUTOSAVEMONEY_TOGGLECHECK");
+		automode_cbx:SetUserValue("NUMBER", 1);
+	end
+
+
+
+end
+--dofile("../data/addon_d/autosavemoney/autosavemoney.lua");
+
+function AUTOSAVEMONEY_TOGGLECHECK(frame, ctrl, argStr, argNum)
+	if ctrl:IsChecked() == 1 then
+		g.settings.automode = true;
+	else
+		g.settings.automode = false;
+	end
+	AUTOSAVEMONEY_SAVESETTINGS();
+end
+
+function AUTOSAVEMONEY_SETTING()
+	local frame = ui.GetFrame("accountwarehouse");
+	local txtBox = GET_CHILD(frame, "AUTOSAVEMONEY_SAVE_TEXT"):GetText()
+
+	if tonumber(txtBox) >= 1000 then
+		g.settings.thresholdPrice = txtBox;
+
+		CHAT_SYSTEM(string.format("[%s]設定 %s:しきい値%s%s", addonName, info.GetName(session.GetMyHandle()), GET_MONEY_IMG(14) ,GetCommaedText(txtBox)));
+		AUTOSAVEMONEY_SAVESETTINGS();
+		ui.MsgBox(string.format("[%s]設定しました。{nl} {nl}%s:しきい値%s%s", addonName, info.GetName(session.GetMyHandle()), GET_MONEY_IMG(14) ,GetCommaedText(txtBox)))
+	end
 end
