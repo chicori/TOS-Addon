@@ -121,11 +121,12 @@ function AUTOSAVEMONEY_SET(frame)
 		local find_name = GET_CHILD(depBox, "moneyInput", "ui::CEditControl");
 		find_name:SetText(setPrice);
 		
-		local automode = g.settings.automode;
-		if automode == true then
+		if g.settings.automode == true then
 			ACCOUNT_WAREHOUSE_DEPOSIT(frame)
+			CHAT_SYSTEM(info.GetName(session.GetMyHandle()).."："..GetCommaedText(setPrice) .. "シルバーを自動入金しました{/}")
 		end
 	end	
+
 --dofile("../data/addon_d/autosavemoney/autosavemoney.lua");
 
 	if g.settings.enable == true then
@@ -158,6 +159,11 @@ function AUTOSAVEMONEY_SET(frame)
 		automode_cbx:SetOverSound("button_over");
 		automode_cbx:SetEventScript(ui.LBUTTONUP, "AUTOSAVEMONEY_TOGGLECHECK");
 		automode_cbx:SetUserValue("NUMBER", 1);
+		if g.settings.automode == true then
+			automode_cbx:SetCheck(1);
+		else
+			automode_cbx:SetCheck(0);
+		end
 	end
 
 
