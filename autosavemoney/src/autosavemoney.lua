@@ -1,7 +1,7 @@
 --アドオン名（大文字）
-local addonName			= "AUTOSAVEMONEY"
+local addonName		= "AUTOSAVEMONEY"
 local addonNameLower	= string.lower(addonName)
-local author			= "CHICORI"
+local author		= "CHICORI"
 
 --アドオン内で使用する領域を作成。以下、ファイル内のスコープではグローバル変数gでアクセス可
 _G["ADDONS"] = _G["ADDONS"] or {}
@@ -17,7 +17,7 @@ CHAT_SYSTEM(string.format("%s.lua is loaded", addonName))
 
 --セーブ ------------------------------------------------------------------------------------------------------------------------
 function AUTOSAVEMONEY_SAVESETTINGS()
-	local cid			= session.GetMySession():GetCID()
+	local cid		= session.GetMySession():GetCID()
 	g.settingsFileLoc	= string.format("../addons/%s/%s.json", addonNameLower, cid)
 	acutil.saveJSON(g.settingsFileLoc, g.settings)
 end
@@ -30,7 +30,7 @@ function FIRSTLOAD_SETTINGS()
 		autopay			= false,	--自動出金
 		autotalt		= false,	--自動タルト
 		splitprice		= 1000,		--単位
-		thresholdprice	= 100000,	--入出金しきい値
+		thresholdprice		= 100000,	--入出金しきい値
 		inputitem1		= "",		--
 		inputitem2		= "",		--
 		inputitem3		= "",		--
@@ -50,7 +50,7 @@ end
 -- 読み込み処理 -----------------------------------------------------------------------------------------------------------------
 function AUTOSAVEMONEY_ON_INIT(addon, frame)
 	--設定ファイル保存先
-	local cid			= session.GetMySession():GetCID()
+	local cid		= session.GetMySession():GetCID()
 	g.settingsFileLoc	= string.format("../addons/%s/%s.json", addonNameLower, cid)
 
 	local t, err = acutil.loadJSON(g.settingsFileLoc, g.settings)
@@ -66,8 +66,8 @@ function AUTOSAVEMONEY_ON_INIT(addon, frame)
 		CHAT_SYSTEM("※アップデートに伴い初期化しました")
 	end
 
-		AUTOSAVEMONEY_SAVESETTINGS()
-		g.loaded = true
+	AUTOSAVEMONEY_SAVESETTINGS()
+	g.loaded = true
 
 	addon:RegisterMsg('OPEN_DLG_ACCOUNTWAREHOUSE', 'AUTOSAVEMONEY_ACT')
 
@@ -80,21 +80,21 @@ function AUTOSAVEMONEY_ACT()
 		return;
 	end
 
-	local totalMoney		= GET_TOTAL_MONEY()
+	local totalMoney	= GET_TOTAL_MONEY()
 	local thresholdPrice	= g.settings.thresholdprice
-	local splitPrice		= g.settings.splitprice
+	local splitPrice	= g.settings.splitprice
 
-	local frame				= ui.GetFrame("accountwarehouse")
-	local logBox			= GET_CHILD(frame, "logbox")
-	local depBox			= GET_CHILD(logBox, "DepositSkin")
-	local setCTRL			= GET_CHILD(depBox, "moneyInput", "ui::CEditControl")
+	local frame		= ui.GetFrame("accountwarehouse")
+	local logBox		= GET_CHILD(frame, "logbox")
+	local depBox		= GET_CHILD(logBox, "DepositSkin")
+	local setCTRL		= GET_CHILD(depBox, "moneyInput", "ui::CEditControl")
 	local setPrice
 
 	--入金
 	if totalMoney >= (thresholdPrice + splitPrice) then
 		if g.settings.automode == true then
-			setPrice	= math.floor((totalMoney-thresholdPrice)/splitPrice)*splitPrice
-			setCTRL		: SetText(setPrice);
+			setPrice = math.floor((totalMoney-thresholdPrice)/splitPrice)*splitPrice
+			setCTRL: SetText(setPrice);
 			ACCOUNT_WAREHOUSE_DEPOSIT(frame)
 			CHAT_SYSTEM(info.GetName(session.GetMyHandle()).."："..GetCommaedText(setPrice) .. "シルバーを自動入金しました{/}")
 		end
@@ -102,8 +102,8 @@ function AUTOSAVEMONEY_ACT()
 	--自動出金
 	elseif (thresholdPrice - splitPrice) >= totalMoney then
 		if g.settings.autopay == true then
-			setPrice	= math.floor((thresholdPrice-totalMoney+splitPrice)/splitPrice)*splitPrice
-			setCTRL		: SetText(setPrice);
+			setPrice = math.floor((thresholdPrice-totalMoney+splitPrice)/splitPrice)*splitPrice
+			setCTRL:SetText(setPrice);
 			ACCOUNT_WAREHOUSE_WITHDRAW(frame)
 			CHAT_SYSTEM(info.GetName(session.GetMyHandle()).."："..GetCommaedText(setPrice) .. "シルバーを自動出金しました{/}")
 		end
@@ -187,7 +187,7 @@ end
 -- 設定登録 ------------------------------------------------------------------------------------------------------
 function AUTOSAVEMONEY_SETTING(frame)
 	local thresholdPrice	= GET_CHILD(frame, "ASM_SAVE_TXT1"):GetText()
-	local splitPrice		= GET_CHILD(frame, "ASM_SAVE_TXT2"):GetText()
+	local splitPrice	= GET_CHILD(frame, "ASM_SAVE_TXT2"):GetText()
 
 	if tonumber(thresholdPrice) >= 1000 then
 		g.settings.thresholdprice	= thresholdPrice
@@ -202,25 +202,25 @@ end
 
 -- 未完成 ************************************************
 function AUTOSAVEMONEY_SELECT_ALLITEM()
-	local frame			= ui.GetFrame("accountwarehouse")
-    local gbox			= frame:GetChild("gbox")
-    local slotset		= gbox:GetChild("slotset")
+	local frame	= ui.GetFrame("accountwarehouse")
+	local gbox	= frame:GetChild("gbox")
+	local slotset	= gbox:GetChild("slotset")
 
 	for i = 1, 2 do
 		local slotname = slotset:GetChild("slot" .. i)
 		AUTO_CAST(slotname);
-	    slotname:Select(1, 1)						-- Select(enable, count)?
+	    	slotname:Select(1, 1)			-- Select(enable, count)?
 		CHAT_SYSTEM(tostring(slotname))
 	end
 end
 
 --未完成 ************************************************
 function AUTOSAVEMONEY_CLEAR_ALLITEM()
-	local frame		= ui.GetFrame("accountwarehouse")
-	local gbox		= frame:GetChild("gbox")
+	local frame	= ui.GetFrame("accountwarehouse")
+	local gbox	= frame:GetChild("gbox")
 	local slotset	= gbox:GetChild("slotset")
 
-    local aObj			= GetMyAccountObj();
+	local aObj		= GetMyAccountObj();
 	local maxcountWH	= aObj.MaxAccountWarehouseCount + aObj.AccountWareHouseExtend
 
 	for i = 1, maxcountWH do
