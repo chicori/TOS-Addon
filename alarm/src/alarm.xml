@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uiframe name="alarm" x="100" y="100" width="600" height="650">
-	<frame fullheight="false" title="{@st43}alarm{/}" titlepos="0 -3" snapclient="true" snapframe="true" layout_gravity="light center" margin="0 0 0 0"/>
+	<frame fullheight="false" title="{@st43}Alarm{/}" titlepos="0 -3" snapclient="true" snapframe="true" layout_gravity="light center" margin="0 0 0 0"/>
 	<input hittest="true" movable="true" moveintitlebar="false" hittestframe="true"/>
 	<option closebuttonpos="0 0" autoopen="true" hideable="true"/>
 	<script CloseScp="ALARM_CLOSE"/>

@@ -16,22 +16,146 @@ local g = _G["ADDONS"][author][addonName];
 g.settingsDirLoc  = string.format("../addons/%s", addonNameLower);
 g.settingsFileLoc = string.format("%s/settings.json", g.settingsDirLoc);
 
+-- Text for translation / localization
+local LocaleText = {
+	en = {
+		Title = "Alarm",
+		Subtitle = {
+			Timer = "■ Simple Timer: notify after the time set",
+			Alarm = "■ Scheduled Alarm: notify today or daily at HH:MM (24h format)",
+			Sound = "■ Sound Preview"
+		},
+		Header = {
+			Enable = "ON",
+			Repeat = "Repeat",
+			Daily = "Daily",
+			Time = "HH:MM",
+			Message = "Message",
+			Sound = "Sound"
+		},
+		Button = {
+			SaveRow = "Save",
+			SaveAll = "Save",
+			Dilgele = "Dilgele"
+		},
+		Default = {
+			Set1 = "Alarm 1",
+			Set2 = "Alarm 2",
+			Set3 = "Alarm 3",
+			Set4 = "Alarm 4",
+			Set5 = "Alarm 5",
+			Set6 = "Alarm 6",
+			Set7 = "Alarm 7",
+			Set8 = "Alarm 8",
+			Set9 = "Alarm 9",
+			Set10 = "Alarm 10",
+			Dilgele = "Dilgele",
+		},
+		System = {
+			LuaLoaded = "%s.lua is loaded",
+			Save = {
+				EmptyError = "There is an error with the current setup. {nl}Please don't leave any empty fields{nl}on a enabled (checked) alarm.",
+				SuccessAll = "Alarms Set!",
+				SuccessSingleFirst = "Alarm ",
+				SuccessSingleSecond = " Set!"
+			},
+			Test = {
+				Title = "Test: ",
+				Became = " became?",
+			},
+			Timer = "[Timer]: %02d:%02d repeat: %s alarm: %s",
+			SoundPreview = "[Notification sound preview]: ",
+			Scheduled = "[Scheduled] ",
+			Dilgele = {
+				Popup = "[Dilgele Timer]{nl} {nl}Do you want to be notified in 2 and a half hours to check upon your Dilgele sprouts?",
+				AboutHalfHour = "Dilgele Timer: About 30 minutes",
+				OneHourAndHalf = "Dilgele Timer: 1 hour and 30 minutes",
+				TwoHourAndHalf = "Dilgele Timer: 2 hours and 30 minutes has passed",
+				Set = "Dilgele timer set!",
+				Ready = "It's time to check on Dilgeles!"
+			}
+		},
+	},
+	jp = {
+		Title = "Alarm",
+		Subtitle = {
+			Timer = "■ 指定時間後に通知",
+			Alarm = "■ 定時アラーム",
+			Sound = "■ 通知音プレビュー"
+		},
+		Header = {
+			Enable = "使用",
+			Repeat = "回数",
+			Daily = "毎日",
+			Time = "時間",
+			Message = "通知メッセージ",
+			Sound = "通知音"
+		},
+		Button = {
+			SaveRow = "保存",
+			SaveAll = "一括保存",
+			Dilgele = "ディルゲレ"
+		},
+		Default = {
+			Set1 = "アラーム１",
+			Set2 = "アラーム２",
+			Set3 = "アラーム３",
+			Set4 = "アラーム４",
+			Set5 = "アラーム５",
+			Set6 = "アラーム６",
+			Set7 = "アラーム７",
+			Set8 = "アラーム８",
+			Set9 = "アラーム９",
+			Set10 = "アラーム１０",
+			Dilgele = "ディルゲレ",
+		},
+		System = {
+			LuaLoaded = "%s.lua is loaded",
+			Save = {
+				EmptyError = "設定に不正な部分があります。{nl}有効フラグにチェックを入れている時に{nl}時間やアラーム本文を空欄にしないようにしてください",
+				SuccessAll = "アラームを設定しました",
+				SuccessSingleFirst = "アラーム",
+				SuccessSingleSecond = "を設定しました"
+			},
+			Test = {
+				Title = "テスト：",
+				Became = "になりました",
+			},
+			Timer = "【指定時間後通知】%02d:%02d経過%s回目%s",
+			SoundPreview = "【定時アラーム通知】",
+			Scheduled = "【定時アラーム通知】",
+			Dilgele = {
+				Popup = "【ディルゲレタイマー】{nl} {nl}２時間半後に{nl}「あーあーああー」で通知します。",
+				AboutHalfHour = "【ディルゲレタイマー】あと３０分後です",
+				OneHourAndHalf = "【ディルゲレタイマー】あと１時間３０分後です",
+				TwoHourAndHalf = "【ディルゲレタイマー】２時間３０分経過しました",
+				Set = "ディルゲレタイマーを設定しました",
+				Ready = "ディルゲレの時間だよ"
+			}
+		}
+	}
+};
 
 --デフォルト設定
 if not g.loaded then
+-- function ALARM_CREATE_DEFAULT_SETTINGS()
 	g.settings = {
-		set0  = {enable=false; hour=""; minute=""; body="アラーム１"  ; repeatcount=0; sound=""; startdate=""};
-		set1  = {enable=false; hour=""; minute=""; body="アラーム２"  ; repeatcount=0; sound=""; startdate=""};
-		set2  = {enable=false; hour=""; minute=""; body="アラーム３"  ; repeatcount=0; sound=""; startdate=""};
-		set3  = {enable=false; hour=""; minute=""; body="アラーム４"  ; repeatcount=0; sound=""; startdate=""};
-		set4  = {enable=false; hour=""; minute=""; body="アラーム５"  ; repeatcount=0; sound=""; startdate=""};
-		set5  = {enable=false; hour=""; minute=""; body="アラーム６"  ; repeatcount=0; sound=""; startdate=""};
-		set6  = {enable=false; hour=""; minute=""; body="アラーム７"  ; repeatcount=0; sound=""; startdate=""};
-		set7  = {enable=false; hour=""; minute=""; body="アラーム８"  ; repeatcount=0; sound=""; startdate=""};
-		set8  = {enable=false; hour=""; minute=""; body="アラーム９"  ; repeatcount=0; sound=""; startdate=""};
-		set9  = {enable=false; hour=""; minute=""; body="アラーム１０"; repeatcount=0; sound=""; startdate=""};
-		set10 = {enable=false; hour=""; minute=""; body="ディルゲレ"  ; repeatcount=0; sound=""; startdate=""};
+		set0  = {enable=false; hour=""; minute=""; body="Alarm 1" ; repeatcount=0; sound=""; startdate=""};
+		set1  = {enable=false; hour=""; minute=""; body="Alarm 2" ; repeatcount=0; sound=""; startdate=""};
+		set2  = {enable=false; hour=""; minute=""; body="Alarm 3" ; repeatcount=0; sound=""; startdate=""};
+		set3  = {enable=false; hour=""; minute=""; body="Alarm 4" ; repeatcount=0; sound=""; startdate=""};
+		set4  = {enable=false; hour=""; minute=""; body="Alarm 5" ; repeatcount=0; sound=""; startdate=""};
+		set5  = {enable=false; hour=""; minute=""; body="Alarm 6" ; repeatcount=0; sound=""; startdate=""};
+		set6  = {enable=false; hour=""; minute=""; body="Alarm 7" ; repeatcount=0; sound=""; startdate=""};
+		set7  = {enable=false; hour=""; minute=""; body="Alarm 8" ; repeatcount=0; sound=""; startdate=""};
+		set8  = {enable=false; hour=""; minute=""; body="Alarm 9" ; repeatcount=0; sound=""; startdate=""};
+		set9  = {enable=false; hour=""; minute=""; body="Alarm 10" ; repeatcount=0; sound=""; startdate=""};
+		set10 = {enable=false; hour=""; minute=""; body="Dilgele"  ; repeatcount=0; sound=""; startdate=""};
 	};
+	-- defaults to japanese language if none was found
+	if not g.settings.language then
+		g.settings.language = "jp";
+	end
 end
 
 --ライブラリ読み込み
@@ -43,19 +167,19 @@ g.loaded=false
 --lua読み込み時のメッセージ
 CHAT_SYSTEM(string.format("%s.lua is loaded", addonName));
 
-	local playList = {
+local playList = {
 	{name=""             ,         title="None"},
 	{name="Login_Barrack",         title="BGM1 : Tree of Savior          "},
 	{name="f_3cmlake",             title="BGM2 : Signs of Penance        "},
-    {name="id_thorn",              title="BGM3 : Kevin Cordis            "},
-    {name="id_thorn2",             title="BGM4 : Hunter Green            "},
-    {name="m_boss_b",              title="BGM5 : Wings of courage        "},
-    {name="m_boss_scenario",       title="BGM6 : O Deive                 "},
-    {name="m_boss_scenario2",      title="BGM7 : Deives Veliava          "},
-    {name="mission_chaple_01",     title="BGM8 : Kevin Peripeteia        "},
-    {name="mission_huevillage_01", title="BGM9 : Symphonix Feel Free     "},
+	{name="id_thorn",              title="BGM3 : Kevin Cordis            "},
+	{name="id_thorn2",             title="BGM4 : Hunter Green            "},
+	{name="m_boss_b",              title="BGM5 : Wings of courage        "},
+	{name="m_boss_scenario",       title="BGM6 : O Deive                 "},
+	{name="m_boss_scenario2",      title="BGM7 : Deives Veliava          "},
+	{name="mission_chaple_01",     title="BGM8 : Kevin Peripeteia        "},
+	{name="mission_huevillage_01", title="BGM9 : Symphonix Feel Free     "},
 	{name="id_new3",               title="BGM10 : Repetitive              "},
-	};
+};
 
 
 
@@ -118,10 +242,10 @@ function ALARM_SAVE_SETTINGS()
 	end
 
 	if errFlg then
-		ui.SysMsg("設定に不正な部分があります。{nl}有効フラグにチェックを入れている時に{nl}時間やアラーム本文を空欄にしないようにしてください");
+		ui.SysMsg(LocaleText[g.settings.language].System.Save.EmptyError);
 	else
 		acutil.saveJSON(g.settingsFileLoc, g.settings);
-		ui.SysMsg("アラームを設定しました");
+		ui.SysMsg(LocaleText[g.settings.language].System.Save.SuccessAll);
 	end
 end
 
@@ -179,10 +303,10 @@ function ALARM_SINGLESAVE_SETTINGS(setno)
 		end
 
 	if errFlg then
-		ui.SysMsg("設定に不正な部分があります。{nl}有効フラグにチェックを入れている時に{nl}時間やアラーム本文を空欄にしないようにしてください");
+		ui.SysMsg(LocaleText[g.settings.language].System.Save.EmptyError);
 	else
 		acutil.saveJSON(g.settingsFileLoc, g.settings);
-		ui.SysMsg("アラーム" .. setno+1 .. "を設定しました");
+		ui.SysMsg(LocaleText[g.settings.language].System.Save.SuccessSingleFirst .. setno+1 .. LocaleText[g.settings.language].System.Save.SuccessSingleSecond);
 	end
 end
 
@@ -198,13 +322,13 @@ function ALARM_PREVIEW_NICO()
 end
 
 function ALARM_PREVIEW_GUIDEMSG()
-	GUIDE_MSG("テスト：" .. os.date("%H:%M").."になりました")
+	GUIDE_MSG(LocaleText[g.settings.language].System.Test.Title .. os.date("%H:%M").. LocaleText[g.settings.language].System.Test.Became)
 end
 function ALARM_PREVIEW_MSGBOX()
-	ui.MsgBox("テスト：" .. os.date("%H:%M").."になりました")
+	ui.MsgBox(LocaleText[g.settings.language].System.Test.Title .. os.date("%H:%M").. LocaleText[g.settings.language].System.Test.Became)
 end
 function ALARM_PREVIEW_CHATSYSTEM()
-	CHAT_SYSTEM("テスト：" .. os.date("%H:%M").."になりました")
+	CHAT_SYSTEM(LocaleText[g.settings.language].System.Test.Title .. os.date("%H:%M").. LocaleText[g.settings.language].System.Test.Became)
 end
 
 
@@ -219,6 +343,26 @@ end
 
 
 --------------------------------------------------------------------------------------------
+-- Check slash command for language
+--------------------------------------------------------------------------------------------
+function ALARM_SLASH_COMMAND(command)
+	local cmd = "";
+	if #command > 0 then
+		cmd = table.remove(command, 1);
+		if (cmd == "jp" or cmd == "japanese" or cmd == "ja") then
+			-- set it to japanese
+			g.settings.language = "jp";
+		elseif (cmd == "en" or cmd == "english") then
+			-- set it to english
+			g.settings.language = "en";
+		end
+		acutil.saveJSON(g.settingsFileLoc, g.settings);
+		ui.SysMsg("Alarm language: " .. g.settings.language);
+	end
+	ALARM_OPEN();
+end
+
+--------------------------------------------------------------------------------------------
 --マップ読み込み時処理（1度だけ）
 --------------------------------------------------------------------------------------------
 function ALARM_ON_INIT(addon, frame)
@@ -228,8 +372,8 @@ function ALARM_ON_INIT(addon, frame)
 		g.frame = frame;
 		frame:ShowWindow(0);
 		--コマンド登録
-		acutil.slashCommand("/alarm", ALARM_OPEN);
-		acutil.slashCommand("/al", ALARM_OPEN);
+		acutil.slashCommand("/alarm", ALARM_SLASH_COMMAND);
+		acutil.slashCommand("/al", ALARM_SLASH_COMMAND);
 
 		-- 設定読み込み
 		if not g.loaded then
@@ -255,7 +399,7 @@ function ALARM_ON_INIT(addon, frame)
 	local addBtn
 	local testMAPMATE = pcall(TOUKIBI_MAPMATE_EXEC_PCCUPDATE,"");
 	if testMAPMATE == true then
-		addBtn = addbtnFrame:CreateOrGetControl("button", "ADDBTN", 10, 0, 80, 30);		
+		addBtn = addbtnFrame:CreateOrGetControl("button", "ADDBTN", 10, 0, 80, 30);
 	else
 		addBtn = addbtnFrame:CreateOrGetControl("button", "ADDBTN", 72, 3, 92, 30);
 	end
@@ -277,7 +421,7 @@ function ALARM_OPEN()
 	ALARM_CREATE_FRAME()
 
 
-	
+
 
 
 end
@@ -300,21 +444,21 @@ function ALARM_CREATE_FRAME()
 	local fontType = "{@st43}{s18}"
 	local fontName = "white_16_ol"
 	local rtLabel = {
-		[1]  = {name="■ 指定時間後に通知" ; left=48 ; top= 0 ;  h=0; w=0;};
-		[2]  = {name="使用"                ; left=75 ; top= 30;  h=0; w=0;};
-		[3]  = {name="回数"                ; left=135; top= 30;  h=0; w=0;};
-		[4]  = {name="時間"                ; left=215; top= 30;  h=0; w=0;};
-		[5]  = {name="通知メッセージ"      ; left=300; top= 30;  h=0; w=0;};
-		[6]  = {name="通知音"                  ; left=520; top= 30;  h=0; w=0;};
+		[1]  = {name = LocaleText[g.settings.language].Subtitle.Timer; left=48; top=0; h=0; w=0;};
+		[2]  = {name = LocaleText[g.settings.language].Header.Enable; left=82; top=30; h=0; w=0;};
+		[3]  = {name = LocaleText[g.settings.language].Header.Repeat; left=128; top=30; h=0; w=0;};
+		[4]  = {name = LocaleText[g.settings.language].Header.Time; left=200; top=30; h=0; w=0;};
+		[5]  = {name = LocaleText[g.settings.language].Header.Message; left=295; top=30; h=0; w=0;};
+		[6]  = {name = LocaleText[g.settings.language].Header.Sound; left=520; top=30; h=0; w=0;};
 
-		[7]  = {name="■ 定時アラーム"     ; left=48 ; top= 200; h=0; w=0;};
-		[8]  = {name="使用"                ; left=75 ; top= 230; h=0; w=0;};
-		[9]  = {name="毎日"                ; left=135; top= 230; h=0; w=0;};
-		[10] = {name="時間"                ; left=210; top= 230; h=0; w=0;};
-		[11] = {name="通知メッセージ"      ; left=300; top= 230; h=0; w=0;};
-		[12] = {name="通知音"              ; left=520; top= 230; h=0; w=0;};
+		[7]  = {name = LocaleText[g.settings.language].Subtitle.Timer; left=48 ; top=200; h=0; w=0;};
+		[8]  = {name = LocaleText[g.settings.language].Header.Enable; left=82; top=230; h=0; w=0;};
+		[9]  = {name = LocaleText[g.settings.language].Header.Daily; left=132; top=230; h=0; w=0;};
+		[10] = {name = LocaleText[g.settings.language].Header.Time; left=200; top=230; h=0; w=0;};
+		[11] = {name = LocaleText[g.settings.language].Header.Message; left=295; top=230; h=0; w=0;};
+		[12] = {name = LocaleText[g.settings.language].Header.Sound; left=520; top=230; h=0; w=0;};
 
-		[13] = {name="■ 通知音プレビュー" ; left=48 ; top= 555; h=0; w=0;};
+		[13] = {name=LocaleText[g.settings.language].Subtitle.Sound; left=48; top=555; h=0; w=0;};
 	};
 
 	for i, ver in ipairs(rtLabel) do
@@ -333,16 +477,16 @@ function ALARM_CREATE_FRAME()
 			[1]  = {name="ENABLE"  ; type= "checkbox"; left=85 ; top=0; h=35 ; w=35;            };
 			[2]  = {name="REPEAT"  ; type= "edit"    ; left=140; top=0; h=30 ; w=35; max=99;    };
 			[3]  = {name="HOUR"    ; type= "edit"    ; left=195; top=0; h=35 ; w=35; max=23;    };
-			[4]  = {name="SPLIT"   ; type= "richtext"; left=224; top=0; h=35 ; w=35;            };
+			[4]  = {name="SPLIT"   ; type= "richtext"; left=234; top=0; h=35 ; w=35;            };
 			[5]  = {name="MINUTE"  ; type= "edit"    ; left=245; top=0; h=35 ; w=35; max=59;    };
 			[6]  = {name="BODY"    ; type= "edit"    ; left=300; top=0; h=200; w=35; max=100;   };
 			[7]  = {name="DROPLIST"; type= "droplist"; left=515; top=0; h=200; w=33;            };
-			[8]  = {name="SAVE"    ; type= "button"  ; left=730; top=0; h=70 ; w=32; body="保存"; fnc="ALARM_SINGLESAVE_SETTINGS"};
+			[8]  = {name="SAVE"    ; type= "button"  ; left=730; top=0; h=70 ; w=32; body=LocaleText[g.settings.language].Button.SaveRow; fnc="ALARM_SINGLESAVE_SETTINGS"};
 		};
 
 		for j, ver in ipairs(rtCtrl) do
 			local create_CTRL = frame:CreateOrGetControl(rtCtrl[j].type, rtCtrl[j].name..i, rtCtrl[j].left, marginTop, rtCtrl[j].h, rtCtrl[j].w);
-	
+
 			if rtCtrl[j].type == "checkbox" then
 				tolua.cast(create_CTRL, "ui::CCheckBox");
 				create_CTRL:SetClickSound("button_click_big");
@@ -429,18 +573,18 @@ function ALARM_CREATE_FRAME()
 			[1]  = {name="ENABLE"  ; type= "checkbox"; left=90 ; top=0; h=35 ; w=35;        };
 			[2]  = {name="REPEAT"  ; type= "checkbox"; left=145; top=0; h=30 ; w=35;        };
 			[3]  = {name="HOUR"    ; type= "edit"    ; left=195; top=0; h=35 ; w=35; max=23 };
-			[4]  = {name="SPLIT"   ; type= "richtext"; left=224; top=0; h=35 ; w=35;        };
+			[4]  = {name="SPLIT"   ; type= "richtext"; left=234; top=0; h=35 ; w=35;        };
 			[5]  = {name="MINUTE"  ; type= "edit"    ; left=245; top=0; h=35 ; w=35; max=59 };
 			[6]  = {name="BODY"    ; type= "edit"    ; left=300; top=0; h=200; w=35; max=100};
 			[7]  = {name="DROPLIST"; type= "droplist"; left=515; top=0; h=200; w=33;        };
-			[8]  = {name="SAVE"    ; type= "button"  ; left=730; top=0; h=70 ; w=32; body="保存"; fnc="ALARM_SINGLESAVE_SETTINGS"};
+			[8]  = {name="SAVE"    ; type= "button"  ; left=730; top=0; h=70 ; w=32; body=LocaleText[g.settings.language].Button.SaveRow; fnc="ALARM_SINGLESAVE_SETTINGS"};
 		};
-	
+
 		for j, ver in ipairs(rtCtrl2) do
 
 			local create_CTRL = frame:CreateOrGetControl(rtCtrl2[j].type, rtCtrl2[j].name..i, rtCtrl2[j].left, marginTop, rtCtrl2[j].h, rtCtrl2[j].w);
-	
-			if rtCtrl2[j].type == "checkbox" then	
+
+			if rtCtrl2[j].type == "checkbox" then
 				tolua.cast(create_CTRL, "ui::CCheckBox");
 				create_CTRL:SetClickSound("button_click_big");
 				create_CTRL:SetAnimation("MouseOnAnim",  "btn_mouseover");
@@ -538,7 +682,7 @@ function ALARM_CREATE_FRAME()
 	tolua.cast(save_button2, "ui::CButton");
 	save_button2:SetFontName("white_16_ol");
 	save_button2:SetEventScript(ui.LBUTTONDOWN, "ALARM_SAVE_DILGER");
-	save_button2:SetText("ディルゲレ");
+	save_button2:SetText("Dilgele");
 
 
 --//ボタン：保存
@@ -546,7 +690,7 @@ function ALARM_CREATE_FRAME()
 	tolua.cast(save_button, "ui::CButton");
 	save_button:SetFontName("white_16_ol");
 	save_button:SetEventScript(ui.LBUTTONDOWN, "ALARM_SAVE_SETTINGS");
-	save_button:SetText("一括保存");
+	save_button:SetText("Save");
 
 
 --//画像
@@ -614,7 +758,7 @@ function ALARM_ACTION(frame, msg, argStr, argNum)
 			if tonumber(g.settings["set"..i].repeatcount) >= 1 then
 				local setDate = g.settings["set"..i].startdate + (g.settings["set"..i].minute) + (g.settings["set"..i].hour*60)
 				if nowDate == setDate then
-					CHAT_SYSTEM(string.format("【指定時間後通知】%02d:%02d経過%s回目%s",g.settings["set"..i].hour,g.settings["set"..i].repeatcount,g.settings["set"..i].minute,g.settings["set"..i].body));
+					CHAT_SYSTEM(string.format(LocaleText[g.settings.language].System.Timer,g.settings["set"..i].hour,g.settings["set"..i].repeatcount,g.settings["set"..i].minute,g.settings["set"..i].body));
 					for v=0,10 do
 						NICO_CHAT(g.settings["set"..i].body)
 					end
@@ -648,7 +792,7 @@ function ALARM_ACTION(frame, msg, argStr, argNum)
 				for v=0,10 do
 					NICO_CHAT(g.settings["set"..i].body)
 				end
-				CHAT_SYSTEM("【定時アラーム通知】" .. setTime .. " " .. g.settings["set"..i].body);
+				CHAT_SYSTEM(LocaleText[g.settings.language].System.Scheduled .. setTime .. " " .. g.settings["set"..i].body);
 
 				local alarmSound = g.settings["set"..i].sound
 				if #alarmSound >= 1 then
@@ -669,23 +813,23 @@ function ALARM_ACTION(frame, msg, argStr, argNum)
 
 			local notice1h = g.settings["set10"].startdate + 60
 			if nowDate == notice1h then
-				CHAT_SYSTEM("【ディルゲレタイマー】あと１時間３０分後です");
+				CHAT_SYSTEM(LocaleText[g.settings.language].System.Dilgele.OneHourAndHalf);
 			end
 
 			local notice2h = g.settings["set10"].startdate + 120
 			if nowDate == notice2h then
-				GUIDE_MSG("【ディルゲレタイマー】あと３０分後です");
-				CHAT_SYSTEM("【ディルゲレタイマー】あと３０分後です");
+				GUIDE_MSG(LocaleText[g.settings.language].System.Dilgele.AboutHalfHour);
+				CHAT_SYSTEM(LocaleText[g.settings.language].System.Dilgele.AboutHalfHour);
 			end
 
 
 			local setDate = g.settings["set10"].startdate + (g.settings["set10"].minute) + (g.settings["set10"].hour*60)
 			if nowDate == setDate then
-					CHAT_SYSTEM("【ディルゲレタイマー】２時間３０分経過しました");
+					CHAT_SYSTEM(LocaleText[g.settings.language].System.Dilgele.TwoHourAndHalf);
 					for v=0,8 do
 						NICO_CHAT("{img icon_item_Dilgele 40 40}" .. g.settings["set10"].body .. "{img icon_item_Dilgele 40 40}")
 					end
-	
+
 					imcSound.PlayMusic(g.settings["set10"].sound, 1)
 					g.settings["set10"].enable = false;
 					acutil.saveJSON(g.settingsFileLoc, g.settings);
@@ -706,19 +850,19 @@ end
 -- ディルゲレタイマー
 --------------------------------------------------------------------------------------------
 function ALARM_SAVE_DILGER()
-	ui.MsgBox("【ディルゲレタイマー】{nl} {nl}２時間半後に{nl}「あーあーああー」で通知します。","ALARM_SET_DILGER","None")
+	ui.MsgBox(LocaleText[g.settings.language].System.Dilgele.Popup,"ALARM_SET_DILGER","None")
 end
 
 function ALARM_SET_DILGER()
 		g.settings["set10"].enable      = true;
 		g.settings["set10"].hour        = "2";
 		g.settings["set10"].minute      = "30";
-		g.settings["set10"].body        = "ディルゲレの時間だよ";
+		g.settings["set10"].body        = LocaleText[g.settings.language].System.Dilgele.Ready;
 		g.settings["set10"].repeatcount = 1;
 		g.settings["set10"].sound       = "m_boss_scenario2";
 		g.settings["set10"].startdate   = math.floor(GetServerAppTime()/60)
 		acutil.saveJSON(g.settingsFileLoc, g.settings);
-		ui.SysMsg("ディルゲレタイマーを設定しました");
+		ui.SysMsg(LocaleText[g.settings.language].System.Dilgele.Set);
 end
 
 function ALARM_STOP_DILGER()
@@ -740,7 +884,7 @@ function SOUND_PREV(name,bgmnames)
 	end
 
 	NICO_CHAT(bgmnames)
-	CHAT_SYSTEM("通知音プレビュー："..bgmnames)
+	CHAT_SYSTEM(LocaleText[g.settings.language].System.SoundPreview .. bgmnames)
 
 end
 
