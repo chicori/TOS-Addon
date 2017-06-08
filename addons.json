@@ -41,6 +41,19 @@
 		]
 	},
 	{
+		"name" : "Autosave money English Version",
+		"file" : "autosavemoney_en",
+		"extension" : "ipf",
+		"fileVersion" : "v1.0.8",
+		"releaseTag" : "autosavemoney_en",
+		"unicode" : "⛄",
+		"description" : "【v1.0.8：bugfix, When opening the team warehouse, automatically set the amount of money in the payment column. Delete autosavemoney japanese first.",
+		"tags" : [
+			"ui",
+			"warehouse"
+		]
+	},
+	{
 		"name" : "Check Skillshop",
 		"file" : "checkskillshop",
 		"extension" : "ipf",
