@@ -21,10 +21,10 @@ if not g.loaded then
   g.settings = {
     enable = true,
 	shop   = "",
-	aspar  = 714,
-	bless  = 285,
+	aspar  = 715,
+	bless  = 287,
 	sacra  = 500,
-	mshield = 287
+	mshield = 715
   }
 end
 
@@ -100,10 +100,10 @@ function BUFFSHOPEX_PROCESS_COMMAND(command)
 		local altMsg = "アスパーションを次の価格で保存します。"
 
 		if 714 >= tonumber(cmdPrice) then
-			altMsg = "アスパーションの原価は714sです。{nl}原価以下になりますが保存しますか？"
+			altMsg = "アスパーションの原価は715sです。{nl}原価以下になりますが保存しますか？"
 		end
 
-		local calcPrice = cmdPrice - 714
+		local calcPrice = cmdPrice - 715
 		local yesscp    = string.format("SKILLPRICE_SAVE(%q)",cmd)
 		ui.MsgBox(altMsg .. "{nl} {nl}（設定額:" .. cmdPrice .. "s / 差益:".. calcPrice .."s)",yesscp,"None")
 		return
@@ -113,10 +113,10 @@ function BUFFSHOPEX_PROCESS_COMMAND(command)
 		local altMsg   = "ブレッシングを次の価格で保存します。"
 
 		if 285 >= cmdPrice then
-			altMsg = "ブレッシングの原価は285sです。{nl}原価以下になりますが保存しますか？"
+			altMsg = "ブレッシングの原価は287sです。{nl}原価以下になりますが保存しますか？"
 		end
 
-		local calcPrice = cmdPrice - 285
+		local calcPrice = cmdPrice - 287
 		local yesscp = string.format("SKILLPRICE_SAVE(%q)",cmd)
 		ui.MsgBox(altMsg .. "{nl} {nl}（設定額:" .. cmdPrice .. "s / 差益:".. calcPrice .."s)",yesscp,"None")
 		return
@@ -139,10 +139,10 @@ function BUFFSHOPEX_PROCESS_COMMAND(command)
 		local altMsg   = "マジックシールドを次の価格で保存します。"
 
 		if 5 >= tonumber(cmdPrice) then
-			altMsg = "マジックシールドの原価は287sです。{nl}原価以下になりますが保存しますか？"
+			altMsg = "マジックシールドの原価は715sです。{nl}原価以下になりますが保存しますか？"
 		end
 
-		local calcPrice = cmdPrice - 500
+		local calcPrice = cmdPrice - 715
 		local yesscp = string.format("SKILLPRICE_SAVE(%q)",cmd)
 		ui.MsgBox(altMsg .. "{nl} {nl}（設定額:" .. cmdPrice .. "s / 差益:".. calcPrice .."s)",yesscp,"None")
 		return
@@ -273,13 +273,13 @@ function BUFFSELLER_REG_OPEN_HOOKED(frame)
 	local setLbl   = sellList:CreateOrGetControl("richtext", "BUFFSHOP_ASPAR_LBL", 260, 65, 50, 50);
 	tolua.cast(setLbl, "ui::CRichText");
 	setLbl:SetFontName("white_14_ol");
-	setLbl:SetText("原価 : 714");
+	setLbl:SetText("原価 : 715");
 
 --//ラベル：ブレス原価
 	setLbl = sellList:CreateOrGetControl("richtext", "BUFFSHOP_BLESS_LBL", 260, 185, 50, 50);
 	tolua.cast(setLbl, "ui::CRichText");
 	setLbl:SetFontName("white_14_ol");
-	setLbl:SetText("原価 : 285");
+	setLbl:SetText("原価 : 287");
 
 --//ラベル：サクラ原価
 	setLbl = sellList:CreateOrGetControl("richtext", "BUFFSHOP_SACRA_LBL", 260, 305, 50, 50);
@@ -291,7 +291,7 @@ function BUFFSELLER_REG_OPEN_HOOKED(frame)
 	setLbl = sellList:CreateOrGetControl("richtext", "BUFFSHOP_MSHIELD_LBL", 260, 425, 50, 50);
 	tolua.cast(setLbl, "ui::CRichText");
 	setLbl:SetFontName("white_14_ol");
-	setLbl:SetText("原価 : 287");
+	setLbl:SetText("原価 : 715");
 
 
 
