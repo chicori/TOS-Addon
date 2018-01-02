@@ -23,7 +23,8 @@ if not g.loaded then
 	shop   = "",
 	aspar  = 714,
 	bless  = 285,
-	sacra  = 5
+	sacra  = 500,
+	mshield = 287
   }
 end
 
@@ -125,13 +126,28 @@ function BUFFSHOPEX_PROCESS_COMMAND(command)
 		local altMsg   = "サクラメントを次の価格で保存します。"
 
 		if 5 >= tonumber(cmdPrice) then
-			altMsg = "サクラメントの原価は5sです。{nl}原価以下になりますが保存しますか？"
+			altMsg = "サクラメントの原価は500sです。{nl}原価以下になりますが保存しますか？"
 		end
 
-		local calcPrice = cmdPrice - 5
+		local calcPrice = cmdPrice - 500
 		local yesscp = string.format("SKILLPRICE_SAVE(%q)",cmd)
 		ui.MsgBox(altMsg .. "{nl} {nl}（設定額:" .. cmdPrice .. "s / 差益:".. calcPrice .."s)",yesscp,"None")
 		return
+
+	elseif string.sub(cmd,1,1) == "m" then
+		local cmdPrice = tonumber(string.sub(cmd,2))
+		local altMsg   = "マジックシールドを次の価格で保存します。"
+
+		if 5 >= tonumber(cmdPrice) then
+			altMsg = "マジックシールドの原価は287sです。{nl}原価以下になりますが保存しますか？"
+		end
+
+		local calcPrice = cmdPrice - 500
+		local yesscp = string.format("SKILLPRICE_SAVE(%q)",cmd)
+		ui.MsgBox(altMsg .. "{nl} {nl}（設定額:" .. cmdPrice .. "s / 差益:".. calcPrice .."s)",yesscp,"None")
+		return
+
+
 	end
 
 	CHAT_SYSTEM(string.format("[%s] Invalid Command", addonName))
@@ -149,6 +165,9 @@ function SKILLPRICE_SAVE(cmd)
 
 		elseif cmdFlg == "s" then			--サクラ
 			g.settings.sacra = cmdPrice
+
+		elseif cmdFlg == "m" then			--マジックシールド
+			g.settings.mshield = cmdPrice
 
 		end
 
@@ -210,9 +229,10 @@ function BUFFSELLER_REG_OPEN_HOOKED(frame)
 
 --スキルセット
 	local relationSkill = {
-		[1] = {name = "アスパーション"; sklID = 40201; price=g.settings.aspar};
-		[2] = {name = "ブレッシング";   sklID = 40203; price=g.settings.bless};
-		[3] = {name = "サクラメント";   sklID = 40205; price=g.settings.sacra};
+		[1] = {name = "アスパーション";		sklID = 40201; price=g.settings.aspar};
+		[2] = {name = "ブレッシング";   	sklID = 40203; price=g.settings.bless};
+		[3] = {name = "サクラメント";   	sklID = 40205; price=g.settings.sacra};
+		[4] = {name = "マジックシールド";	sklID = 40808; price=g.settings.mshield};
 	}
 	for i, ver in ipairs(relationSkill) do
 		local skillID = relationSkill[i].sklID
@@ -265,9 +285,16 @@ function BUFFSELLER_REG_OPEN_HOOKED(frame)
 	setLbl = sellList:CreateOrGetControl("richtext", "BUFFSHOP_SACRA_LBL", 260, 305, 50, 50);
 	tolua.cast(setLbl, "ui::CRichText");
 	setLbl:SetFontName("white_14_ol");
-	setLbl:SetText("原価 : 5");
-	
-	
+	setLbl:SetText("原価 : 500");
+
+--//ラベル：マジックシールド原価
+	setLbl = sellList:CreateOrGetControl("richtext", "BUFFSHOP_MSHIELD_LBL", 260, 425, 50, 50);
+	tolua.cast(setLbl, "ui::CRichText");
+	setLbl:SetFontName("white_14_ol");
+	setLbl:SetText("原価 : 287");
+
+
+
 --	local testBB = GET_CHILD(gBox, "inputname"):GetText()
 
 
@@ -321,22 +348,26 @@ function BUFFSHOP_SAVEBTN(frame)
 	local setSacra = GET_CHILD(ctrlSet, "priceinput"):GetText()
 
 
+	local ctrlSet  = GET_CHILD(sellList, "CTRLSET_3")
+	local setMshield = GET_CHILD(ctrlSet, "priceinput"):GetText()
+
 
 	string.gsub(shopName,"\\","")
-	local SaveMsg = "商店名：".. shopName .. "{nl}アスパ：" .. setAspar.."{nl}ブレス："..setBless.."{nl}サクラ："..setSacra.."{nl} {nl}以上の内容で登録しますか？"
-	ui.MsgBox(SaveMsg,"BUFFSHOP_SAVEBTNACT(\"" .. shopName .. "\"," .. setAspar .. "," .. setBless .. "," ..setSacra .. ")","None")
+	local SaveMsg = "商店名：".. shopName .. "{nl}アスパ：" .. setAspar.."{nl}ブレス："..setBless.."{nl}サクラ："..setSacra.."{nl}マジックシールド："..setMshield.."{nl} {nl}以上の内容で登録しますか？"
+	ui.MsgBox(SaveMsg,"BUFFSHOP_SAVEBTNACT(\"" .. shopName .. "\"," .. setAspar .. "," .. setBless .. "," ..setSacra .. "," ..setMshield .. ")","None")
 
 end
 
-function BUFFSHOP_SAVEBTNACT(shopName,setAspar,setBless,setSacra)
+function BUFFSHOP_SAVEBTNACT(shopName,setAspar,setBless,setSacra,setMshield)
 
 	g.settings.shop = shopName
 	g.settings.aspar = setAspar
 	g.settings.bless = setBless
 	g.settings.sacra = setSacra
+	g.settings.mshield = setMshield	
 	BUFFSHOPEX_SAVE_SETTINGS()
 	
-	CHAT_SYSTEM(shopName .."/ｱｽﾊﾟ".. setAspar .."/ﾌﾞﾚｽ".. setBless .."/ｻｸﾗ".. setSacra.."で登録しました。")
+	CHAT_SYSTEM(shopName .."/ｱｽﾊﾟ".. setAspar .."/ﾌﾞﾚｽ".. setBless .."/ｻｸﾗ".. setSacra .. "/ﾏｼﾞｯｸｼｰﾙﾄﾞ" .. setMshield .. "で登録しました。")
 
 end
 --dofile("../data/addon_d/buffshopex/buffshopex.lua");
