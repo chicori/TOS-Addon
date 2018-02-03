@@ -31,10 +31,10 @@
 		"name" : "Autosave money",
 		"file" : "autosavemoney",
 		"extension" : "ipf",
-		"fileVersion" : "v1.1.0",
+		"fileVersion" : "v1.1.1",
 		"releaseTag" : "autosavemoney",
 		"unicode" : "⛄",
-		"description" : "【v1.1.0：祝福石など対応】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
+		"description" : "【v1.1.1：祝福石など対応】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
 		"tags" : [
 			"ui",
 			"warehouse"
