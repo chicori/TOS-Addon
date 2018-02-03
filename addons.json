@@ -34,7 +34,7 @@
 		"fileVersion" : "v1.0.8",
 		"releaseTag" : "autosavemoney",
 		"unicode" : "⛄",
-		"description" : "【v1.0.8：bugfix,v1.0.7オートモード追加、設定初期化されます】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
+		"description" : "【v1.1.0：祝福石など対応】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
 		"tags" : [
 			"ui",
 			"warehouse"
