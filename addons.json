@@ -1,26 +1,12 @@
 [
 	{
-		"name" : "Market Show Level Ex",
-		"file" : "marketshowlevel_ex",
-		"extension" : "ipf",
-		"fileVersion" : "v1.0.7",
-		"releaseTag" : "marketshowlevel_ex",
-		"unicode" : "⛄",
-		"description" : "【v1.0.7:コレクション表示のbugfix】とらハム様のmarketshowlevelをベースにいくつかの改変をしています。詳しくはWEBSITEにて。なお他のmarketsholevelと競合するので、他のはアンインストールをしてください。",
-		"tags" : [
-			"ui",
-			"market",
-			"jp"
-		]
-	},
-	{
 		"name" : "Autosave money",
 		"file" : "autosavemoney",
 		"extension" : "ipf",
-		"fileVersion" : "v1.1.3",
+		"fileVersion" : "v1.1.4",
 		"releaseTag" : "autosavemoney",
 		"unicode" : "⛄",
-		"description" : "【v1.1.2：祝福石など対応/v1.1.3：bugfix】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
+		"description" : "【v1.1.4：bugfix】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
 		"tags" : [
 			"ui",
 			"warehouse"
