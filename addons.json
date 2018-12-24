@@ -3,10 +3,10 @@
 		"name" : "Autosave money",
 		"file" : "autosavemoney",
 		"extension" : "ipf",
-		"fileVersion" : "v1.2.1",
+		"fileVersion" : "v1.2.2",
 		"releaseTag" : "autosavemoney",
 		"unicode" : "⛄",
-		"description" : "【v1.2.1bugfix /1.2よりUI変更、個別倉庫対応・設定は倉庫の上部から】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
+		"description" : "【v1.2.2bugfix /1.2よりUI変更、個別倉庫対応・設定は倉庫の上部から】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
 		"tags" : [
 			"ui",
 			"warehouse"
