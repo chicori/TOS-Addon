@@ -3,10 +3,10 @@
 		"name" : "Autosave money",
 		"file" : "autosavemoney",
 		"extension" : "ipf",
-		"fileVersion" : "v1.2.7",
+		"fileVersion" : "v1.2.8",
 		"releaseTag" : "autosavemoney",
 		"unicode" : "⛄",
-		"description" : "【v1.2.7 大きく変更：TOSのインストールフォルダにあるaddons/autosavemoneyを削除してください】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
+		"description" : "【v1.2.8 大きく変更：TOSのインストールフォルダにあるaddons/autosavemoneyを削除してください】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
 		"tags" : [
 			"ui",
 			"warehouse"
