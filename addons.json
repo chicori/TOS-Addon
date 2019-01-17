@@ -3,7 +3,7 @@
 		"name" : "Autosave money",
 		"file" : "autosavemoney",
 		"extension" : "ipf",
-		"fileVersion" : "v1.2.81",
+		"fileVersion" : "v1.2.82",
 		"releaseTag" : "autosavemoney",
 		"unicode" : "⛄",
 		"description" : "【v1.2.81bug fix：アドオンマネージャから一回アンインストール後にインストールしてください】チーム倉庫を開いたときに、指定した金額を残した所持金を入金欄に自動セットします。",
