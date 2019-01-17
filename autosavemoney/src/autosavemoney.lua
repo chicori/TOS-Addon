@@ -15,56 +15,73 @@ function AUTOSAVEMONEY_ADDITEMTABLE()
 	putItemTableP = {}
 
 	for i = 7,67 do
-		if g.settings[1].teamflg == true then
-			if g.settingsCommon[i].teamflg 		== true then table.insert(putItemTableT,g.settingsCommon[i].date) end
-			if g.settingsCommon[i].privateflg 	== true then table.insert(putItemTableP,g.settingsCommon[i].date) end
+		if g.settings[1].teamflg then
+			if g.settingsCommon[i].teamflg		then table.insert(putItemTableT,g.settingsCommon[i].date) end
+			if g.settingsCommon[i].privateflg	then table.insert(putItemTableP,g.settingsCommon[i].date) end
 		else
-			if g.settings[i].teamflg			== true then table.insert(putItemTableT,g.settings[i].date) end
-			if g.settings[i].privateflg			== true then table.insert(putItemTableP,g.settings[i].date) end	
+			if g.settings[i].teamflg			then table.insert(putItemTableT,g.settings[i].date) end
+			if g.settings[i].privateflg			then table.insert(putItemTableP,g.settings[i].date) end	
 		end
 	end
 end
 
--- セーブ -----------------------------------------------------------------------------------
+-- 個別セーブ -----------------------------------------------------------------------------------
 function AUTOSAVEMONEY_PRIVATESAVE()
-	-- 個別
-		local cid = session.GetMySession():GetCID()
-		g.settingsFileLoc = string.format("../addons/%s/%s.json", addonNameLower, cid)
-		acutil.saveJSON(g.settingsFileLoc, g.settings)
+	local cid = session.GetMySession():GetCID()
+	g.settingsFileLoc = string.format("../addons/%s/%s.json", addonNameLower, cid)
+	acutil.saveJSON(g.settingsFileLoc, g.settings)
+
 end
 
+-- 共通セーブ
 function AUTOSAVEMONEY_COMMONSAVE()
-	-- 共通
-		g.settingsFileLocCommon = string.format("../addons/%s/%s.json", addonNameLower, "commonsetting")
-		acutil.saveJSON(g.settingsFileLocCommon, g.settingsCommon)
+	g.settingsFileLocCommon = string.format("../addons/%s/%s.json", addonNameLower, "commonsetting")
+	acutil.saveJSON(g.settingsFileLocCommon, g.settingsCommon)
+
 end
 
--- ロード -----------------------------------------------------------------------------------
+-- エラーチェック
+function AUTOSAVEMONEY_PRIVATE_ERRORCHECK()
+	local checkTable = g.settings[67].name				--g.settingsの初期テーブルの最終行を入れる
+end
+function AUTOSAVEMONEY_COMMON_ERRORCHECK()
+	local checkTable = g.settingsCommon[67].name		--g.settingsCommonの初期テーブルの最終行を入れる
+end
+
+-- 個別ロード -----------------------------------------------------------------------------------
 function AUTOSAVEMONEY_PRIVATELOAD()
-	-- 個別
-		local cid			= session.GetMySession():GetCID()
-		g.settingsFileLoc	= string.format("../addons/%s/%s.json", addonNameLower, cid)
-		local t, err = acutil.loadJSON(g.settingsFileLoc, g.settings)
-	
-		if err then
-			AUTOSAVEMONEY_FIRSTLOAD_SETTINGS()
-		else
-			acutil.loadJSON(g.settingsFileLoc, g.settings)
-			g.settings = t
-		end
+	g.settingsFileLoc	= string.format("../addons/%s/%s.json", addonNameLower, session.GetMySession():GetCID())
+	local t, err = acutil.loadJSON(g.settingsFileLoc, g.settings)
+
+	if err then
+		AUTOSAVEMONEY_FIRSTLOAD_SETTINGS()
+
+	elseif pcall(AUTOSAVEMONEY_PRIVATE_ERRORCHECK) == false then
+		AUTOSAVEMONEY_FIRSTLOAD_SETTINGS()
+
+	else
+		acutil.loadJSON(g.settingsFileLoc, g.settings)
+		g.settings = t
+		AUTOSAVEMONEY_ADDITEMTABLE()
+	end
 end
 
+-- 共通ロード
 function AUTOSAVEMONEY_COMMONLOAD()
-	-- 共通
-		g.settingsFileLocCommon	= string.format("../addons/%s/%s.json", addonNameLower, "commonsetting")
-		local t, err = acutil.loadJSON(g.settingsFileLocCommon, g.settingsCommon)
-		
-		if err then
-			AUTOSAVEMONEY_FIRSTLOAD_COMMONSETTINGS()
-		else
-			acutil.loadJSON(g.settingsFileLocCommon, g.settingsCommon)
-			g.settingsCommon = t
-		end
+	g.settingsFileLocCommon	= string.format("../addons/%s/%s.json", addonNameLower, "commonsetting")
+	local t, err = acutil.loadJSON(g.settingsFileLocCommon, g.settingsCommon)
+
+	if err then
+		AUTOSAVEMONEY_FIRSTLOAD_COMMONSETTINGS()
+
+	elseif pcall(AUTOSAVEMONEY_COMMON_ERRORCHECK) == false then
+		AUTOSAVEMONEY_FIRSTLOAD_SETTINGS()
+
+	else
+		acutil.loadJSON(g.settingsFileLocCommon, g.settingsCommon)
+		g.settingsCommon = t
+		AUTOSAVEMONEY_ADDITEMTABLE()
+	end
 end
 
 
@@ -142,7 +159,7 @@ g.settings = {
 };
 
 	AUTOSAVEMONEY_PRIVATESAVE()
-	CHAT_SYSTEM(info.GetName(session.GetMyHandle()) .. "：アドオン[autosave money]初回もしくはアップデート後の起動です。{nl}個人設定を初期化しました。")
+	CHAT_SYSTEM(info.GetName(session.GetMyHandle()) .. "：アドオン[autosave money]の初回、もしくはアップデート後の起動です。{nl}個人設定を初期化しました。")
 end
 --デフォルト設定 --------------------------------------------------------------------------------
 function AUTOSAVEMONEY_FIRSTLOAD_COMMONSETTINGS()
@@ -157,9 +174,7 @@ function AUTOSAVEMONEY_ON_INIT(addon, frame)
 
 	--ロード：個別
 		AUTOSAVEMONEY_PRIVATELOAD()
-		AUTOSAVEMONEY_COMMONLOAD()
-
-		g.loaded = true
+		ReserveScript("AUTOSAVEMONEY_COMMONLOAD()" , 1);
 
 	--ボタン作成
 		local rtCtrl = {
@@ -197,7 +212,7 @@ function AUTOSAVEMONEY_MONEY_TO_WAREHOUSE(frame)
 	local setPrice
 	local afterMoney
 
-	if g.settings[1].teamflg == true then
+	if g.settings[1].teamflg then
 		splitPrice		= g.settingsCommon[5].date
 		thresholdPrice	= g.settingsCommon[6].date
 	else
@@ -215,7 +230,7 @@ function AUTOSAVEMONEY_MONEY_TO_WAREHOUSE(frame)
 		setPrice = math.floor((totalMoney-thresholdPrice)/splitPrice)*splitPrice
 		setCTRL:SetText(setPrice)
 
-		if g.settings[3].teamflg == true then
+		if g.settings[3].teamflg then
 			ACCOUNT_WAREHOUSE_DEPOSIT(frame)
 		
 			afterMoney = GET_TOTAL_MONEY()
@@ -229,7 +244,7 @@ function AUTOSAVEMONEY_MONEY_TO_WAREHOUSE(frame)
 		setPrice	= math.floor((thresholdPrice-totalMoney+splitPrice)/splitPrice)*splitPrice
 		setCTRL:SetText(setPrice);
 
-		if g.settings[4].teamflg == true then
+		if g.settings[4].teamflg then
 			ACCOUNT_WAREHOUSE_WITHDRAW(frame)
 
 			afterMoney = GET_TOTAL_MONEY()
@@ -241,12 +256,11 @@ function AUTOSAVEMONEY_MONEY_TO_WAREHOUSE(frame)
 end
 
 -- アイテム処理 -------------------------------------------------------------------------------------------
-function AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(itemID,itemCount,itemName,itemIcon,checkFlg)
+function AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(itemID, itemCount, itemName, itemIcon, checkFlg)
 	local findItem = 0
 	local invList  = session.GetInvItemList()
-	local index    = invList:Head()
 	local count    = session.GetInvItemList():Count() -1
-	local printImg
+	local index    = invList:Head()
 
 	for i = 0, count do
 		local invItem = invList:Element(index)
@@ -255,6 +269,7 @@ function AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(itemID,itemCount,itemName,itemIco
 
 		if itemObj.ClassID == itemID then
 			findItem = 1
+			break
 		end
 	end
 
@@ -264,34 +279,31 @@ function AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(itemID,itemCount,itemName,itemIco
 	elseif checkFlg == "P" then
 		warehouseName = "キャラ倉庫"
 	end
-		
-	if findItem == 0 then
-		CHAT_SYSTEM("[自動入庫：".. warehouseName .."]" .. "{img " .. itemIcon .. " 18 18} " .. itemName .. "：" ..itemCount .. "個")
-	elseif findItem >= 1 then
-		CHAT_SYSTEM("[入庫失敗：".. warehouseName .."]" .. "{img " .. itemIcon .. " 18 18} " .. itemName .. "：" ..itemCount .. "個")
 
+	if findItem == 0 then
+		warehouseName = "[自動入庫：" .. warehouseName .. "]"
+	elseif findItem >= 1 then
+		warehouseName = "[入庫失敗：" .. warehouseName .. "]"
 	end
+
+	CHAT_SYSTEM(warehouseName .. "{img " .. itemIcon .. " 18 18} " .. itemName .. "：" ..itemCount .. "個")
 
 end
 
-local function isPutItemTeam(itemID)
-	--チーム倉庫
-	for i, putItemID in ipairs(putItemTableT) do
+local function isPutItem(itemID, warehouseFlg)
+
+	if warehouseFlg == "T" then
+		putItemTable = putItemTableT
+	elseif warehouseFlg == "P" then
+		putItemTable = putItemTableP
+	end
+
+	for i, putItemID in ipairs(putItemTable) do
 		if itemID == putItemID then
 			return true
 		end
 	end
 	
-	return false
-end
-
-local function isPutItemPrivate(itemID2)
---個人倉庫
-	for i, putItemID2 in ipairs(putItemTableP) do
-		if itemID2 == putItemID2 then
-			return true
-		end
-	end
 	return false
 end
 
@@ -304,14 +316,13 @@ function AUTOSAVEMONEY_ITEM_TO_WAREHOUSE(frame)
 	local invList		= session.GetInvItemList()
 	local count			= session.GetInvItemList():Count() -1
 	local index			= invList:Head()
-	local sucCount		= 0
 
 	for i = 0, count do
 		local invItem = invList:Element(index)
 		local itemObj = GetIES(invItem:GetObject())
 		index = invList:Next(index)
 
-		if isPutItemTeam(itemObj.ClassID) then
+		if isPutItem(itemObj.ClassID,"T") then
 			ReserveScript( string.format("_AUTOSAVEMONEY_ITEM_TO_WAREHOUSE(\"%s\",%d,\"%s\")",  invItem:GetIESID(), invItem.count,itemObj.Name) , delayCount*0.3)
 			delayCount = delayCount + 1
 			ReserveScript( string.format("AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(%d,%d,\"%s\",\"%s\",\"%s\")",  itemObj.ClassID, invItem.count, itemObj.Name, itemObj.Icon, "T") , delayCount*0.6)
@@ -336,7 +347,7 @@ function AUTOSAVEMONEY_ITEM_TO_CHRWAREHOUSE(frame)
 		local itemObj = GetIES(invItem:GetObject())
 		index = invList:Next(index)
 
-		if isPutItemPrivate(itemObj.ClassID) then
+		if isPutItem(itemObj.ClassID,"P") then
 			ReserveScript( string.format("_AUTOSAVEMONEY_ITEM_TO_CHRWAREHOUSE(\"%s\",%d,\"%s\")",  invItem:GetIESID(), invItem.count,itemObj.Name) , delayCount*0.3)
 			delayCount = delayCount + 1
 			ReserveScript( string.format("AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(%d,%d,\"%s\",\"%s\",\"%s\")",  itemObj.ClassID, invItem.count, itemObj.Name, itemObj.Icon, "P") , delayCount*0.6)
@@ -348,32 +359,32 @@ end
 function AUTOSAVEMONEY_OPEN_SETTING(frame)
 	local frame = ui.GetFrame("autosavemoney")
 	if frame:IsVisible() == 1 then
-		ui.CloseFrame("autosavemoney");
-		return;
+		ui.CloseFrame("autosavemoney")
+		return
 	end
 
 	AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 
 	local autosavemoneyframe = ui.GetFrame("warehouse");
-	local asm_opensetting_btn = GET_CHILD_RECURSIVELY(autosavemoneyframe, "ASM_OPENTEAM_BTN", "ui::CButton");
-	local x = asm_opensetting_btn:GetGlobalX() + 40;
-	local y = asm_opensetting_btn:GetGlobalY() + 50;
-	frame:SetOffset(x,y);
-	frame:ShowWindow(1);
+	local asm_opensetting_btn = GET_CHILD_RECURSIVELY(autosavemoneyframe, "ASM_OPENTEAM_BTN", "ui::CButton")
+	local x = asm_opensetting_btn:GetGlobalX() + 40
+	local y = asm_opensetting_btn:GetGlobalY() + 50
+	frame:SetOffset(x,y)
+	frame:ShowWindow(1)
 end
 
 function AUTOSAVEMONEY_CLOSE_SETTING_FRAME()
-	ui.CloseFrame("autosavemoney");
+	ui.CloseFrame("autosavemoney")
 end
 
 function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
-	local bg_gbox = GET_CHILD(frame, "bg", "ui::CGroupBox");
-	local asmmenu_gbox = GET_CHILD(bg_gbox, "asmmenu_gbox", "ui::CGroupBox");
-		  asmmenu_gbox = tolua.cast(asmmenu_gbox, "ui::CGroupBox");
-		  asmmenu_gbox:SetScrollBar(asmmenu_gbox:GetHeight());
+	local bg_gbox = GET_CHILD(frame, "bg", "ui::CGroupBox")
+	local asmmenu_gbox = GET_CHILD(bg_gbox, "asmmenu_gbox", "ui::CGroupBox")
+		  asmmenu_gbox = tolua.cast(asmmenu_gbox, "ui::CGroupBox")
+		  asmmenu_gbox:SetScrollBar(asmmenu_gbox:GetHeight())
 
-	local asmmenu_list = GET_CHILD(bg_gbox, "asmmenu_gbox", "ui::CGroupBox");
-	asmmenu_list = tolua.cast(asmmenu_list, "ui::CGroupBox");
+	local asmmenu_list = GET_CHILD(bg_gbox, "asmmenu_gbox", "ui::CGroupBox")
+	asmmenu_list = tolua.cast(asmmenu_list, "ui::CGroupBox")
 
 		local rtCtrlBTN		= {}
 		local rtCtrlCHKT	= {}
@@ -410,7 +421,7 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 			create_CTRL:SetEventScript(ui.LBUTTONUP, rtCtrlCHKT[ic].fnc);
 			create_CTRL:SetUserValue("NUMBER", 1);
 
-			if g.settings[ic].teamflg == true then
+			if g.settings[ic].teamflg then
 				create_CTRL:SetCheck(1)
 			else
 				create_CTRL:SetCheck(0)
@@ -426,7 +437,7 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 			create_CTRL:SetEventScript(ui.LBUTTONUP, rtCtrlCHKP[ic].fnc);
 			create_CTRL:SetUserValue("NUMBER", 1);
 
-			if g.settings[ic].teamflg == true then
+			if g.settings[ic].teamflg then
 				create_CTRL:SetCheck(0)
 			else
 				create_CTRL:SetCheck(1)
@@ -446,7 +457,7 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 	--銀行設定
 	flowLTWH = {l=308,t=10,w=100,h=25}
 	for icq = 3,4 do
-		if g.settings[1].teamflg == true then
+		if g.settings[1].teamflg then
 			tAdd.tchk = g.settingsCommon[icq].teamflg
 			tAdd.com  = g.settingsCommon[icq].com
 		else
@@ -472,7 +483,7 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 		create_CTRL:SetOverSound("button_over");
 		create_CTRL:SetEventScript(ui.LBUTTONUP, rtCtrlCHKT[icq].fnc);
 		create_CTRL:SetUserValue("NUMBER", 1);
-		if tAdd.tchk == true then
+		if tAdd.tchk then
 			create_CTRL:SetCheck(1)
 		else
 			create_CTRL:SetCheck(0)
@@ -482,7 +493,7 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 
 	flowLTWH = {l=455,t=10,w=92,h=25}
 	for icr = 5,6 do
-		if g.settings[1].teamflg == true then
+		if g.settings[1].teamflg then
 			tAdd.com  = g.settingsCommon[icr].com
 			tAdd.body = g.settingsCommon[icr].date
 		else
@@ -513,7 +524,7 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 	-- カテゴリ１//よく使うもの
 	flowLTWH = {l=25,t=100,w=143,h=25}
 	for ica = 7,47 do
-		if g.settings[1].teamflg == true then
+		if g.settings[1].teamflg then
 			tAdd.tchk = g.settingsCommon[ica].teamflg
 			tAdd.pchk = g.settingsCommon[ica].privateflg
 			tAdd.com  = g.settingsCommon[ica].com
@@ -557,7 +568,7 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 		create_CTRL:SetEventScript(ui.LBUTTONUP, rtCtrlCHKT[ica].fnc);
 		create_CTRL:SetUserValue("NUMBER", 1);
 
-		if tAdd.tchk == true then
+		if tAdd.tchk then
 			create_CTRL:SetCheck(1)
 		else
 			create_CTRL:SetCheck(0)
@@ -573,17 +584,17 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 		create_CTRL:SetEventScript(ui.LBUTTONUP, rtCtrlCHKP[ica].fnc);
 		create_CTRL:SetUserValue("NUMBER", 1);
 
-		if tAdd.pchk == true then
-				create_CTRL:SetCheck(1)
+		if tAdd.pchk then
+			create_CTRL:SetCheck(1)
 		else
-				create_CTRL:SetCheck(0)
+			create_CTRL:SetCheck(0)
 		end
 	end
 
 		-- category6 / フリー１～１０
 		flowLTWH = {l=25,t=455,w=65,h=25}
 		for icb = 48,67 do
-			if g.settings[1].teamflg == true then
+			if g.settings[1].teamflg then
 				tAdd.tchk = g.settingsCommon[icb].teamflg
 				tAdd.pchk = g.settingsCommon[icb].privateflg
 				tAdd.body = g.settingsCommon[icb].date
@@ -616,7 +627,7 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 		create_CTRL:SetOverSound("button_over");
 		create_CTRL:SetEventScript(ui.LBUTTONUP, rtCtrlCHKT[icb].fnc);
 		create_CTRL:SetUserValue("NUMBER", 1);
-		if tAdd.tchk == true then
+		if tAdd.tchk then
 			create_CTRL:SetCheck(1)
 		else
 			create_CTRL:SetCheck(0)
@@ -632,7 +643,7 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 		create_CTRL:SetOverSound("button_over");
 		create_CTRL:SetEventScript(ui.LBUTTONUP, rtCtrlCHKP[icb].fnc);
 		create_CTRL:SetUserValue("NUMBER", 1);
-		if tAdd.pchk == true then
+		if tAdd.pchk then
 			create_CTRL:SetCheck(1)
 		else
 			create_CTRL:SetCheck(0)
@@ -691,7 +702,7 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 	obj_picture:SetImage("emoticon_0023");
 
 	local title = GET_CHILD(bg_gbox, "title", "ui::CRichText");
-	title:SetText("{@st68b}{s18}addon : Autosave Money ver.1.2.7 Settings {/}{/}");
+	title:SetText("{@st68b}{s18}addon : Autosave Money ver.1.2.81 Settings {/}{/}");
 	asmmenu_gbox:ShowWindow(1);
 
 end	
@@ -719,55 +730,69 @@ function ASM_TGGLECHECK(frame,ctrlName,flgA,flgB)
 		end
 	end
 
-	if g.settings[1].teamflg == true then
+	if g.settings[1].teamflg then
 		--ロード：共通設定
-			AUTOSAVEMONEY_COMMONLOAD()
-			AUTOSAVEMONEY_ADDITEMTABLE()
+		AUTOSAVEMONEY_COMMONLOAD()
+		AUTOSAVEMONEY_ADDITEMTABLE()
+		ui.MsgBox("[共通]設定を読み込みました")
 
-			for i=7,67 do
-				if g.settingsCommon[i].teamflg == true then
+		for i = 3,67 do
+			if i == 5 or i == 6 then
+				GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_EDITD"):SetText(g.settingsCommon[i].date)
+
+			else
+				if g.settingsCommon[i].teamflg then
 					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKT"):SetCheck(1)
 				else
 					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKT"):SetCheck(0)
 				end
-
-				if g.settingsCommon[i].privateflg == true then
-					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKP"):SetCheck(1)
-				else
-					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKP"):SetCheck(0)
+	
+				if i >= 7 then
+					if g.settingsCommon[i].privateflg then
+						GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKP"):SetCheck(1)
+					else
+						GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKP"):SetCheck(0)
+					end
 				end
-
+				
 				if i >= 48 then
-					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_EDITD"):SetText(g.settingsCommon[i].date)
-					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_EDITA"):SetText(g.settingsCommon[i].com)
+						GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_EDITD"):SetText(g.settingsCommon[i].date)
+						GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_EDITA"):SetText(g.settingsCommon[i].com)
 				end
 			end
-			ui.MsgBox("[共通]設定を読み込みました")
+		end
 
 	else
 		--ロード：個人設定
 			AUTOSAVEMONEY_PRIVATELOAD()
 			AUTOSAVEMONEY_ADDITEMTABLE()
+			ui.MsgBox("[個人]設定を読み込みました")
 
-			for i=7,67 do
-				if g.settings[i].teamflg == true then
+		for i = 3,67 do
+			if i == 5 or i == 6 then
+				GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_EDITD"):SetText(g.settings[i].date)
+
+			else
+				if g.settings[i].teamflg then
 					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKT"):SetCheck(1)
 				else
 					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKT"):SetCheck(0)
 				end
-
-				if g.settings[i].privateflg == true then
-					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKP"):SetCheck(1)
-				else
-					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKP"):SetCheck(0)
+	
+				if i >= 7 then
+					if g.settings[i].privateflg then
+						GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKP"):SetCheck(1)
+					else
+						GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_CHKP"):SetCheck(0)
+					end
 				end
-
+				
 				if i >= 48 then
-					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_EDITD"):SetText(g.settings[i].date)
-					GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_EDITA"):SetText(g.settings[i].com)
+						GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_EDITD"):SetText(g.settings[i].date)
+						GET_CHILD(frame, "ASM_" .. g.settings[i].name .. "_EDITA"):SetText(g.settings[i].com)
 				end
 			end
-			ui.MsgBox("[個人]設定を読み込みました")
+		end
 	end
 
 end
@@ -883,7 +908,7 @@ function ASM_SETTING_SAVE(frame)
 		for i = 3,67 do
 			if i == 5 or i == 6 then
 				if tonumber(GET_CHILD(frame, "ASM_".. g.settingsCommon[i].name .."_EDITD"):GetText()) >= 1 then
-					g.settingsCommon[i].date	=	tonumber(GET_CHILD(frame, "ASM_".. g.settingsCommon[i].name .."_EDITD"):GetText())
+					g.settingsCommon[i].date = tonumber(GET_CHILD(frame, "ASM_".. g.settingsCommon[i].name .."_EDITD"):GetText())
 				end
 			else
 				if GET_CHILD(frame, "ASM_".. g.settingsCommon[i].name .."_CHKT"):IsChecked() == 1 then
@@ -911,10 +936,11 @@ function ASM_SETTING_SAVE(frame)
 	
 		AUTOSAVEMONEY_COMMONSAVE()
 		AUTOSAVEMONEY_ADDITEMTABLE()
+		AUTOSAVEMONEY_COMMONLOAD()
 		ui.MsgBox("AutosaveMoneyの[共通]設定を保存しました")
 		CHAT_SYSTEM("AutosaveMoneyの[共通]設定を保存しました")
 
-	else
+	elseif GET_CHILD(frame, "ASM_".. g.settings[1].name .."_CHKT"):IsChecked() == 0 then
 	--個別
 		for i = 3,67 do
 			if i == 5 or i == 6 then
@@ -949,6 +975,7 @@ function ASM_SETTING_SAVE(frame)
 		g.settings[1].teamflg = false
 		AUTOSAVEMONEY_PRIVATESAVE()
 		AUTOSAVEMONEY_ADDITEMTABLE()
+		AUTOSAVEMONEY_PRIVATELOAD()
 		ui.MsgBox("AutosaveMoneyの[個別]設定を保存しました")
 		CHAT_SYSTEM("AutosaveMoneyの[個別]設定を保存しました")
 
