@@ -16,9 +16,10 @@ function AUTOSAVEMONEY_ADDITEMTABLE()
 
 	for i = 7,67 do
 		if g.settings[1].teamflg then
-			if g.settingsCommon[i].teamflg		then table.insert(putItemTableT,g.settingsCommon[i].date) end
-			if g.settingsCommon[i].privateflg	then table.insert(putItemTableP,g.settingsCommon[i].date) end
-		else
+			if g.settingsCommon[i].teamflg		then table.insert(putItemTableT, g.settingsCommon[i].date) end
+			if g.settingsCommon[i].privateflg	then table.insert(putItemTableP, g.settingsCommon[i].date) end
+
+		elseif g.settings[1].teamflg == false then
 			if g.settings[i].teamflg			then table.insert(putItemTableT,g.settings[i].date) end
 			if g.settings[i].privateflg			then table.insert(putItemTableP,g.settings[i].date) end	
 		end
@@ -27,8 +28,7 @@ end
 
 -- 個別セーブ -----------------------------------------------------------------------------------
 function AUTOSAVEMONEY_PRIVATESAVE()
-	local cid = session.GetMySession():GetCID()
-	g.settingsFileLoc = string.format("../addons/%s/%s.json", addonNameLower, cid)
+	g.settingsFileLoc = string.format("../addons/%s/%s.json", addonNameLower, session.GetMySession():GetCID())
 	acutil.saveJSON(g.settingsFileLoc, g.settings)
 
 end
@@ -42,28 +42,29 @@ end
 
 -- エラーチェック
 function AUTOSAVEMONEY_PRIVATE_ERRORCHECK()
-	local checkTable = g.settings[67].name				--g.settingsの初期テーブルの最終行を入れる
+	local checkTable = g.settings[66].name				--g.settingsの初期テーブルの最終行を入れる
 end
 function AUTOSAVEMONEY_COMMON_ERRORCHECK()
-	local checkTable = g.settingsCommon[67].name		--g.settingsCommonの初期テーブルの最終行を入れる
+	local checkTable = g.settingsCommon[66].name		--g.settingsCommonの初期テーブルの最終行を入れる
 end
 
 -- 個別ロード -----------------------------------------------------------------------------------
 function AUTOSAVEMONEY_PRIVATELOAD()
-	g.settingsFileLoc	= string.format("../addons/%s/%s.json", addonNameLower, session.GetMySession():GetCID())
+	local cid = session.GetMySession():GetCID()
+	g.settingsFileLoc = string.format("../addons/%s/%s.json", addonNameLower, cid)
 	local t, err = acutil.loadJSON(g.settingsFileLoc, g.settings)
 
 	if err then
 		AUTOSAVEMONEY_FIRSTLOAD_SETTINGS()
-
-	elseif pcall(AUTOSAVEMONEY_PRIVATE_ERRORCHECK) == false then
-		AUTOSAVEMONEY_FIRSTLOAD_SETTINGS()
-
 	else
 		acutil.loadJSON(g.settingsFileLoc, g.settings)
 		g.settings = t
-		AUTOSAVEMONEY_ADDITEMTABLE()
 	end
+
+	if pcall(AUTOSAVEMONEY_PRIVATE_ERRORCHECK) == false then
+		AUTOSAVEMONEY_FIRSTLOAD_SETTINGS()
+	end
+
 end
 
 -- 共通ロード
@@ -73,14 +74,13 @@ function AUTOSAVEMONEY_COMMONLOAD()
 
 	if err then
 		AUTOSAVEMONEY_FIRSTLOAD_COMMONSETTINGS()
-
-	elseif pcall(AUTOSAVEMONEY_COMMON_ERRORCHECK) == false then
-		AUTOSAVEMONEY_FIRSTLOAD_SETTINGS()
-
 	else
 		acutil.loadJSON(g.settingsFileLocCommon, g.settingsCommon)
 		g.settingsCommon = t
-		AUTOSAVEMONEY_ADDITEMTABLE()
+	end
+
+	if pcall(AUTOSAVEMONEY_COMMON_ERRORCHECK) == false then
+		AUTOSAVEMONEY_FIRSTLOAD_SETTINGS()
 	end
 end
 
@@ -175,6 +175,7 @@ function AUTOSAVEMONEY_ON_INIT(addon, frame)
 	--ロード：個別
 		AUTOSAVEMONEY_PRIVATELOAD()
 		ReserveScript("AUTOSAVEMONEY_COMMONLOAD()" , 1);
+		ReserveScript("AUTOSAVEMONEY_ADDITEMTABLE()" , 5);
 
 	--ボタン作成
 		local rtCtrl = {
