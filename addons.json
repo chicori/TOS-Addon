@@ -3,7 +3,7 @@
 		"name" : "Autosave money",
 		"file" : "autosavemoney",
 		"extension" : "ipf",
-		"fileVersion" : "v1.2.84",
+		"fileVersion" : "v1.2.84-停止中",
 		"releaseTag" : "autosavemoney",
 		"unicode" : "⛄",
 		"description" : "【v1.2.84 bugfixロードデータ修正】キャラ倉庫・チーム倉庫を開いたときに、指定した金額の出し入れと、アイテム入庫をします。設定は倉庫ウィンドウの上の方にボタンができます。",
