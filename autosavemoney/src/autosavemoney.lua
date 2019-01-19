@@ -42,10 +42,10 @@ end
 
 -- エラーチェック
 function AUTOSAVEMONEY_PRIVATE_ERRORCHECK()
-	local checkTable = g.settings[66].name				--g.settingsの初期テーブルの最終行を入れる
+	local checkTable = g.settings[67].name				--g.settingsの初期テーブルの最終行を入れる
 end
 function AUTOSAVEMONEY_COMMON_ERRORCHECK()
-	local checkTable = g.settingsCommon[66].name		--g.settingsCommonの初期テーブルの最終行を入れる
+	local checkTable = g.settingsCommon[67].name		--g.settingsCommonの初期テーブルの最終行を入れる
 end
 
 -- 個別ロード -----------------------------------------------------------------------------------
@@ -57,8 +57,8 @@ function AUTOSAVEMONEY_PRIVATELOAD()
 	if err then
 		AUTOSAVEMONEY_FIRSTLOAD_SETTINGS()
 	else
-		acutil.loadJSON(g.settingsFileLoc, g.settings)
-		g.settings = t
+			acutil.loadJSON(g.settingsFileLoc, g.settings)
+			g.settings = t
 	end
 
 	if pcall(AUTOSAVEMONEY_PRIVATE_ERRORCHECK) == false then
@@ -74,13 +74,14 @@ function AUTOSAVEMONEY_COMMONLOAD()
 
 	if err then
 		AUTOSAVEMONEY_FIRSTLOAD_COMMONSETTINGS()
+		CHAT_SYSTEM("1")
 	else
 		acutil.loadJSON(g.settingsFileLocCommon, g.settingsCommon)
 		g.settingsCommon = t
 	end
 
 	if pcall(AUTOSAVEMONEY_COMMON_ERRORCHECK) == false then
-		AUTOSAVEMONEY_FIRSTLOAD_SETTINGS()
+		AUTOSAVEMONEY_FIRSTLOAD_COMMONSETTINGS()
 	end
 end
 
@@ -156,6 +157,7 @@ g.settings = {
 	[65] = {name="Free18";			teamflg=false;	privateflg=false;	date =0;		com ="フリー18";};
 	[66] = {name="Free19";			teamflg=false;	privateflg=false;	date =0;		com ="フリー19";};
 	[67] = {name="Free20";			teamflg=false;	privateflg=false;	date =0;		com ="フリー20";};
+
 };
 
 	AUTOSAVEMONEY_PRIVATESAVE()
@@ -175,7 +177,7 @@ function AUTOSAVEMONEY_ON_INIT(addon, frame)
 	--ロード：個別
 		AUTOSAVEMONEY_PRIVATELOAD()
 		ReserveScript("AUTOSAVEMONEY_COMMONLOAD()" , 1);
-		ReserveScript("AUTOSAVEMONEY_ADDITEMTABLE()" , 5);
+		ReserveScript("AUTOSAVEMONEY_ADDITEMTABLE()" , 3);
 
 	--ボタン作成
 		local rtCtrl = {
@@ -312,6 +314,7 @@ function _AUTOSAVEMONEY_ITEM_TO_WAREHOUSE(iesID,count,name)
 	local frame = ui.GetFrame("accountwarehouse")
 	item.PutItemToWarehouse(IT_ACCOUNT_WAREHOUSE, iesID, count, frame:GetUserIValue("HANDLE"));
 end
+
 function AUTOSAVEMONEY_ITEM_TO_WAREHOUSE(frame)
 	local delayCount	= 0
 	local invList		= session.GetInvItemList()
@@ -366,11 +369,6 @@ function AUTOSAVEMONEY_OPEN_SETTING(frame)
 
 	AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 
-	local autosavemoneyframe = ui.GetFrame("warehouse");
-	local asm_opensetting_btn = GET_CHILD_RECURSIVELY(autosavemoneyframe, "ASM_OPENTEAM_BTN", "ui::CButton")
-	local x = asm_opensetting_btn:GetGlobalX() + 40
-	local y = asm_opensetting_btn:GetGlobalY() + 50
-	frame:SetOffset(x,y)
 	frame:ShowWindow(1)
 end
 
@@ -568,7 +566,6 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 		create_CTRL:SetOverSound("button_over");
 		create_CTRL:SetEventScript(ui.LBUTTONUP, rtCtrlCHKT[ica].fnc);
 		create_CTRL:SetUserValue("NUMBER", 1);
-
 		if tAdd.tchk then
 			create_CTRL:SetCheck(1)
 		else
@@ -584,7 +581,6 @@ function AUTOSAVEMONEY_OPEN_SETTING_FRAME(frame)
 		create_CTRL:SetOverSound("button_over");
 		create_CTRL:SetEventScript(ui.LBUTTONUP, rtCtrlCHKP[ica].fnc);
 		create_CTRL:SetUserValue("NUMBER", 1);
-
 		if tAdd.pchk then
 			create_CTRL:SetCheck(1)
 		else
