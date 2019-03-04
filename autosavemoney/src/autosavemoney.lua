@@ -260,21 +260,14 @@ end
 
 -- アイテム処理 -------------------------------------------------------------------------------------------
 function AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(itemID, itemCount, itemName, itemIcon, checkFlg)
-	local findItem = 0
-	local invList  = session.GetInvItemList()
-	local count    = session.GetInvItemList():Count() -1
-	local index    = invList:Head()
-
-	for i = 0, count do
-		local invItem = invList:Element(index)
+	local item = { wasFound = 0 }
+	local invList = session.GetInvItemList()
+	FOR_EACH_INVENTORY(invList, function(invList, invItem, item)
 		local itemObj = GetIES(invItem:GetObject())
-		index = invList:Next(index)
-
 		if itemObj.ClassID == itemID then
-			findItem = 1
-			break
+			item.wasFound = 1
 		end
-	end
+	end, false, item)
 
 	local warehouseName
 	if checkFlg == "T" then
@@ -283,31 +276,13 @@ function AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(itemID, itemCount, itemName, item
 		warehouseName = "キャラ倉庫"
 	end
 
-	if findItem == 0 then
+	if item.wasFound == 0 then
 		warehouseName = "[自動入庫：" .. warehouseName .. "]"
-	elseif findItem >= 1 then
+	elseif item.wasFound >= 1 then
 		warehouseName = "[入庫失敗：" .. warehouseName .. "]"
 	end
 
 	CHAT_SYSTEM(warehouseName .. "{img " .. itemIcon .. " 18 18} " .. itemName .. "：" ..itemCount .. "個")
-
-end
-
-local function isPutItem(itemID, warehouseFlg)
-
-	if warehouseFlg == "T" then
-		putItemTable = putItemTableT
-	elseif warehouseFlg == "P" then
-		putItemTable = putItemTableP
-	end
-
-	for i, putItemID in ipairs(putItemTable) do
-		if itemID == putItemID then
-			return true
-		end
-	end
-	
-	return false
 end
 
 function _AUTOSAVEMONEY_ITEM_TO_WAREHOUSE(iesID,count,name)
@@ -316,23 +291,18 @@ function _AUTOSAVEMONEY_ITEM_TO_WAREHOUSE(iesID,count,name)
 end
 
 function AUTOSAVEMONEY_ITEM_TO_WAREHOUSE(frame)
-	local delayCount	= 0
-	local invList		= session.GetInvItemList()
-	local count			= session.GetInvItemList():Count() -1
-	local index			= invList:Head()
-
-	for i = 0, count do
-		local invItem = invList:Element(index)
+	local delay = { count = 0 }
+	local invList = session.GetInvItemList()
+	FOR_EACH_INVENTORY(invList, function(invList, invItem, delay, putItemTableT)
 		local itemObj = GetIES(invItem:GetObject())
-		index = invList:Next(index)
-
-		if isPutItem(itemObj.ClassID,"T") then
-			ReserveScript( string.format("_AUTOSAVEMONEY_ITEM_TO_WAREHOUSE(\"%s\",%d,\"%s\")",  invItem:GetIESID(), invItem.count,itemObj.Name) , delayCount*0.3)
-			delayCount = delayCount + 1
-			ReserveScript( string.format("AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(%d,%d,\"%s\",\"%s\",\"%s\")",  itemObj.ClassID, invItem.count, itemObj.Name, itemObj.Icon, "T") , delayCount*0.6)
+		for _, putItemID in ipairs(putItemTableT) do
+			if itemObj.ClassID == putItemID then
+				ReserveScript( string.format("_AUTOSAVEMONEY_ITEM_TO_WAREHOUSE(\"%s\",%d,\"%s\")",  invItem:GetIESID(), invItem.count,itemObj.Name) , delay.count*0.3)
+				delay.count = delay.count + 1
+				ReserveScript( string.format("AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(%d,%d,\"%s\",\"%s\",\"%s\")",  itemObj.ClassID, invItem.count, itemObj.Name, itemObj.Icon, "T") , delay.count*0.6)
+			end
 		end
-	end
-
+	end, false, delay, putItemTableT)
 end
 
 function _AUTOSAVEMONEY_ITEM_TO_CHRWAREHOUSE(iesID,count,name)
@@ -341,22 +311,18 @@ function _AUTOSAVEMONEY_ITEM_TO_CHRWAREHOUSE(iesID,count,name)
 end
 
 function AUTOSAVEMONEY_ITEM_TO_CHRWAREHOUSE(frame)
-	local delayCount = 0
-	local invList	= session.GetInvItemList()
-	local count		= session.GetInvItemList():Count() -1
-	local index		= invList:Head()
-
-	for i = 0, count do
-		local invItem = invList:Element(index)
+	local delay = { count = 0 }
+	local invList = session.GetInvItemList()
+	FOR_EACH_INVENTORY(invList, function(invList, invItem, delay, putItemTableP)
 		local itemObj = GetIES(invItem:GetObject())
-		index = invList:Next(index)
-
-		if isPutItem(itemObj.ClassID,"P") then
-			ReserveScript( string.format("_AUTOSAVEMONEY_ITEM_TO_CHRWAREHOUSE(\"%s\",%d,\"%s\")",  invItem:GetIESID(), invItem.count,itemObj.Name) , delayCount*0.3)
-			delayCount = delayCount + 1
-			ReserveScript( string.format("AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(%d,%d,\"%s\",\"%s\",\"%s\")",  itemObj.ClassID, invItem.count, itemObj.Name, itemObj.Icon, "P") , delayCount*0.6)
+		for _, putItemID in ipairs(putItemTableP) do
+			if itemObj.ClassID == putItemID then
+				ReserveScript( string.format("_AUTOSAVEMONEY_ITEM_TO_CHRWAREHOUSE(\"%s\",%d,\"%s\")",  invItem:GetIESID(), invItem.count,itemObj.Name) , delay.count*0.3)
+				delay.count = delay.count + 1
+				ReserveScript( string.format("AUTOSAVEMONEY_ITEM_TO_WAREHOUSE_CHECK(%d,%d,\"%s\",\"%s\",\"%s\")",  itemObj.ClassID, invItem.count, itemObj.Name, itemObj.Icon, "P") , delay.count*0.6)
+			end
 		end
-	end
+	end, false, delay, putItemTableP)
 end
 
 -- 設定フレーム --------------------------------------------------------------------------
