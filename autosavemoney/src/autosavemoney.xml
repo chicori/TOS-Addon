@@ -2,7 +2,7 @@
 <uiframe name="autosavemoney" x="0" y="0" width="900" height="820" create="open">
 	<frame fullheight="false" fasthide="true" layout_gravity="center center" margin="0 0 0 0"/>
 	<draw drawframe="false" drawnotitlebar="false" drawtitlebar="false"/>
-	<input hittest="true" movable="true" moveintitlebar="false" hittestframe="true"/>
+	<input hittest="true" moveable="true" moveintitlebar="false" hittestframe="true"/>
 	<layer layerlevel="99"/>
 	<option closebutton="true"/>
 	<userconfig TITLE_MARGIN_Y="10" BODY_MARGIN_Y="10"/>
